@@ -1,0 +1,2 @@
+C:\Users\hp\Documents\Valentine\Class\Personal_classes\C++_learning_course\c_plus_plus_learning\Learning_c++\Debug\Learning_c++.exe
+C:\Users\hp\Documents\Valentine\Class\Personal_classes\C++_learning_course\c_plus_plus_learning\Learning_c++\Debug\Learning_c++.pdb
