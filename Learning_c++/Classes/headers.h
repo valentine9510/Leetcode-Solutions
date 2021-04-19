@@ -31,10 +31,11 @@ class Player {
         Player(std::string,int);
         Player(std::string);
         Player(const Player &other); //Copy constructor
+        Player(Player &&source);
         ~Player();
 
         void set_name(std::string);
-        std::string get_name(void);
+        std::string get_name(void) const;
 };
 
 #endif
