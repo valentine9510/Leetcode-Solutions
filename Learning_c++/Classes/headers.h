@@ -5,15 +5,15 @@
 #include <iostream>
 #include <string.h>
 
-class Account {
+class Account1 {
     private:
         std::string name;
         double balance;
 
     public:
-        Account();
-        Account(std::string name, double val);
-        void set_balance (double balance);
+        Account1();
+        Account1(std::string name, double val);
+        void Account1 (double balance);
         double get_balance (void); 
         void set_name(std::string name);
         bool deposit(double amount);

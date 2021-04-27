@@ -1,24 +1,24 @@
 #include "headers.h"
 #include <string>
 
-void Account::set_balance(double bal){
+void Account1::Account1(double bal){
     balance = bal;
 }
 
-double Account::get_balance(void){
+double Account1::get_balance(void){
     return balance;
 }
 
-void Account::set_name(std::string name){
+void Account1::set_name(std::string name){
 
 }
 
-bool Account::deposit(double amount){
+bool Account1::deposit(double amount){
     balance += amount;
     return true;
 }
 
-bool Account::withdraw(double amount){
+bool Account1::withdraw(double amount){
     if (amount < balance){
         balance -+ amount;
         return true;
