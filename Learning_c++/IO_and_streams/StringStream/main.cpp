@@ -42,7 +42,7 @@ int main() {
         else 
             std::cout << "Sorry, that's not an integer" << std::endl;
             
-         // discards the input buffer
+         // discards the input buffer, deletes the rest of the buffer
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     } while (!done);
     
