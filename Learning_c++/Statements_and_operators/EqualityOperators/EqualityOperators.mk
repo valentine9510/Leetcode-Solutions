@@ -3,17 +3,17 @@
 ## any manual changes will be erased      
 ##
 ## Debug
-ProjectName            :=Macros
+ProjectName            :=EqualityOperators
 ConfigurationName      :=Debug
-WorkspacePath          :=C:/Users/frank/Desktop/CPPExamples/Section20
-ProjectPath            :=C:/Users/frank/Desktop/CPPExamples/Section20/Macros
+WorkspacePath          :=C:/Users/frank/Desktop/CPPExamples/Section8
+ProjectPath            :=C:/Users/frank/Desktop/CPPExamples/Section8/EqualityOperators
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=frank
-Date                   :=29/05/2018
+Date                   :=31/01/2018
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=C:/MinGW/bin/g++.exe
 SharedObjectLinkerName :=C:/MinGW/bin/g++.exe -shared -fPIC
@@ -32,7 +32,7 @@ Preprocessors          :=
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
-ObjectsFileList        :="Macros.txt"
+ObjectsFileList        :="EqualityOperators.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := 
@@ -52,7 +52,7 @@ LibPath                := $(LibraryPathSwitch).
 AR       := C:/MinGW/bin/ar.exe rcu
 CXX      := C:/MinGW/bin/g++.exe
 CC       := C:/MinGW/bin/gcc.exe
-CXXFLAGS := -std=c++14 -Wall -g -O0 $(Preprocessors)
+CXXFLAGS := -std=c++14 -Wall -g -O0 -std=c++14 -Wall $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := C:/MinGW/bin/as.exe
@@ -94,7 +94,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/frank/Desktop/CPPExamples/Section20/Macros/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/frank/Desktop/CPPExamples/Section8/EqualityOperators/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
 
