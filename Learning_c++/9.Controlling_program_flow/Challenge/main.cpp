@@ -70,24 +70,25 @@ using namespace std;
 
 int main() {
     
-    const vector<char> user_options{'P','A','M','S','L','Q'};
+    // const vector<char> user_options{'P','A','M','S','L','Q'};
 
-    cout << "Your options are : " << endl;
+    // cout << "Your options are : " << endl;
 
-    cout << "P - Print numbers " << endl;
-    cout << "A - Add a number " << endl;
-    cout << "M - Display mean of the numbers " << endl;
-    cout << "S - Display the smallest number " << endl;
-    cout << "L - Display the largest number " << endl;
-    cout << "Q - Quit " << endl;
-    cout << "Enter your choice: " << endl;
+    // cout << "P - Print numbers " << endl;
+    // cout << "A - Add a number " << endl;
+    // cout << "M - Display mean of the numbers " << endl;
+    // cout << "S - Display the smallest number " << endl;
+    // cout << "L - Display the largest number " << endl;
+    // cout << "Q - Quit " << endl;
+    // cout << "Enter your choice: " << endl;
 
-    char user_input;
-    cin >> user_input;
+    // char user_input;
+    // cin >> user_input;
 
-    if (find(user_options.begin(), toupper(user_input) ) != user_options.end() ){
+    // if (find(user_options.begin(), toupper(user_input) ) != user_options.end() ){
 
-    }
+    // }
+    
 
     
     return 0;

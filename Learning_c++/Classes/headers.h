@@ -13,7 +13,7 @@ class Account1 {
     public:
         Account1();
         Account1(std::string name, double val);
-        void Account1 (double balance);
+        Account1 (double balance);
         double get_balance (void); 
         void set_name(std::string name);
         bool deposit(double amount);

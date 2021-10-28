@@ -1,7 +1,13 @@
 #include "headers.h"
 #include <string>
 
-void Account1::Account1(double bal){
+AAccount1::Account1()()
+    :name{""}, balance{0} {}
+    
+Account1::Account1(std::string name, double val)
+    : name{name}, balance {val}{ }
+
+Account1::Account1(double bal){
     balance = bal;
 }
 

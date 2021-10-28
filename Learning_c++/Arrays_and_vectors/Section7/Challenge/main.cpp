@@ -30,6 +30,7 @@
 */
     
 #include <iostream>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
@@ -37,68 +38,114 @@ using namespace std;
 int main() {
     
     // your solution goes here
+    // vector<int> vector1;
+    // vector<int> vector2;
+
+    // vector1.push_back(10);
+    // vector1.push_back(20);
+
+    // for (auto i : vector1){
+    //     cout << i << " ";
+    // }
+    // cout << endl;
+
+    // for (int i = 0; i < vector1.size(); i++){
+    //     cout << vector1.at(i) <<" ";
+    // }
+    // cout << endl;
+    // cout << "size of vector1 is " << vector1.size() << endl;
+
+    // vector2.push_back(100);
+    // vector2.push_back(200);
+
+    // for (auto i : vector2){
+    //     cout << i << " ";
+    // }
+    // cout << endl;
+
+    // for (int i = 0; i < vector2.size(); i++){
+    //     cout << vector2.at(i) <<" ";
+    // }
+    // cout << endl;
+    // cout << "size of vector2 is " << vector2.size() << endl;
+
+
+
+    // //===========================================
+    // vector<vector<int>> vector_2d;
+    // vector_2d.push_back(vector1);
+    // vector_2d.push_back(vector2);
+
+    // for (auto i : vector_2d){
+    //     for (auto j : i){
+    //         cout << j << " "; //Displaying a 2D vector
+    //     }
+    // }
+    // cout << endl;
+
+    // vector1.at(0) = 1000;
+
+    // //Display 2D vector
+    // for (auto i : vector_2d){
+    //     for (auto j : i){
+    //         cout << j << " "; //Displaying a 2D vector
+    //     }
+    // }
+    // cout << endl;
+
+    // //Display vector1
+    // for (auto i : vector1){
+    //     cout << i << " ";
+    // }
+
+
+    // cout << endl;
+
     vector<int> vector1;
     vector<int> vector2;
 
     vector1.push_back(10);
     vector1.push_back(20);
 
+    cout << "Vector1 " << endl;
     for (auto i : vector1){
-        cout << i << " ";
+        cout <<  " " << i << endl;
     }
-    cout << endl;
-
-    for (int i = 0; i < vector1.size(); i++){
-        cout << vector1.at(i) <<" ";
-    }
-    cout << endl;
-    cout << "size of vector1 is " << vector1.size() << endl;
 
     vector2.push_back(100);
     vector2.push_back(200);
 
+    cout << "Vector2 " << endl;
     for (auto i : vector2){
-        cout << i << " ";
+        cout <<  "just i " << i << endl;
     }
-    cout << endl;
 
-    for (int i = 0; i < vector2.size(); i++){
-        cout << vector2.at(i) <<" ";
-    }
-    cout << endl;
-    cout << "size of vector2 is " << vector2.size() << endl;
-
-
-
-    //===========================================
-    vector<vector<int>> vector_2d;
+    vector< vector<int> > vector_2d;
     vector_2d.push_back(vector1);
     vector_2d.push_back(vector2);
 
-    for (auto i : vector_2d){
-        for (auto j : i){
-            cout << j << " "; //Displaying a 2D vector
+    cout << "Vector 2d " << endl;
+    for (auto vect : vector_2d){
+        //cout << "Vector index " << *find( vector_2d.begin(),vector_2d.end(),vect) <<endl;
+        for ( auto j : vect ){
+            cout << j << endl;
         }
     }
-    cout << endl;
 
     vector1.at(0) = 1000;
 
-    //Display 2D vector
-    for (auto i : vector_2d){
-        for (auto j : i){
-            cout << j << " "; //Displaying a 2D vector
+    cout << "Vector 2d " << endl;
+    for (auto vect : vector_2d){
+        for ( auto j : vect ){
+            cout << j << endl;
         }
     }
-    cout << endl;
-
-    //Display vector1
+    cout << "Vector1 " << endl;
     for (auto i : vector1){
-        cout << i << " ";
+        cout <<  " " << i << endl;
     }
 
 
-    cout << endl;
     return 0;
 }
 
