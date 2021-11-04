@@ -40,6 +40,7 @@
 
 using namespace std;
 int* apply_all(int[], int, int[], int);
+void print(int *array1,int array1_size);
 int main() {
     const size_t array1_size {5};
     const size_t array2_size {3};
@@ -64,6 +65,25 @@ int main() {
     return 0;
 }
 
-int* apply_all(array1, array1_size, array2, array2_size){
+int* apply_all(int array1[], int array1_size,int array2[], int array2_size){
+    int *productArray{};
+    productArray = new int[array1_size*array2_size];
+    int position {0};
+    
+    for(int i =0; i<array1_size;i++){
+      for(int j =0; j<array2_size;j++){
+        productArray[position] = array1[i]*array2[j];
+        position++;
+      }
+    }
 
+    return productArray;
+}
+
+void print(int *array1,int array1_size){
+  cout << "Array printing : ";
+  for(int i =0; i<array1_size ; i++){
+    cout << array1[i]<<" ";
+  }
+  cout << endl;
 }

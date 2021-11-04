@@ -28,7 +28,7 @@ int main() {
 //   std::unique_ptr<Test> t2 = std::make_unique<Test>(1000);
     auto t3 = make_unique<Test>(2500);
 //   
-//   std::unique_ptr<Test> t3;
+//   std::unique_ptr<Test> t3;  //moving the pointer
 //   t3 = std::move(t1);
 //   if (!t1) 
 //       std::cout << "t1 is nullptr" << std::endl;
