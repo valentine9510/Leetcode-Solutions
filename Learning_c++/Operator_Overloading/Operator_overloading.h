@@ -23,8 +23,8 @@ class Mystring {
         Mystring(Mystring &&source); //Move constructor
         ~Mystring(); //Destructor
 
-        Mystring &operator = (const Mystring &rhs); //Copy assignment, returns Mystring value by reference
-        Mystring &operator = (Mystring &&rhs); //Move assignment, returns Mystring value by reference
+        Mystring &operator = (const Mystring &rhs); //Copy assignment, returns Mystring value by reference because if it copied, it beats the purpose
+        Mystring &operator = (Mystring &&rhs); //Move assignment, returns Mystring value by reference because if it copied, it beats the purpose
 
         Mystring operator-() const;                   // Make lower case
         Mystring operator+(const Mystring &rhs) const; //concatenate

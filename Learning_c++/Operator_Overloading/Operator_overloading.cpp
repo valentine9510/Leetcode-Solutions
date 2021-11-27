@@ -26,6 +26,7 @@ Mystring::Mystring(const Mystring &source)
     :str{nullptr}{
         str = new char[std::strlen(source.str)+1];
         std::strcpy(str,source.str);
+        std::cout << "Using copy constructor " << std::endl;
     }
 
 //Copy assignment
@@ -36,7 +37,7 @@ Mystring &Mystring::operator=(const Mystring &rhs){
         return *this;
     }
 
-    delete []str;
+    delete [] this->str;
     str = new char[strlen(rhs.str) + 1];
     strcpy(str,rhs.str);
 
@@ -105,7 +106,7 @@ std::istream &operator>>(std::istream &in, Mystring &rhs){
 
 //Destructor 
 Mystring::~Mystring(){
-    delete []str;
+    delete [] this->str;
 }
 
 //Display method
