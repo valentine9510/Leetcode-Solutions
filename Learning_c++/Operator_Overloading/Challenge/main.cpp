@@ -6,6 +6,9 @@
 using namespace std;
 
 int main() {
+    cout << boolalpha << endl;
+    Mystring a {"frank"};
+    Mystring b {"frank"};
     /*
     
     cout << boolalpha << endl;

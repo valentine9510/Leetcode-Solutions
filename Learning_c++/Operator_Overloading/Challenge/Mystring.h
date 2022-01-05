@@ -17,6 +17,16 @@ public:
     
     Mystring &operator=(const Mystring &rhs);     // Copy assignment
     Mystring &operator=(Mystring &&rhs);           // Move assignment
+
+    Mystring operator-();  //Returns lower case
+    bool operator==(const Mystring rhs); //
+    bool operator!=(const Mystring rhs);
+    bool operator<(const Mystring rhs);
+    bool operator>(const Mystring rhs);
+    Mystring operator+(const Mystring rhs);
+    Mystring operator*(int n);
+    Mystring &operator*=(int n);
+    Mystring &operator+=(const Mystring rhs);
     
     void display() const;
     

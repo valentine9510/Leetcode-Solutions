@@ -16,12 +16,12 @@ int main() {
     cout << ref << endl;
     
     num  = 200;
-    cout << "\n---------------------------------" << endl;
+    cout << "\n---------------- num  = 200;-----------------" << endl;
     cout << num << endl;
     cout << ref << endl;
     
     ref = 300;
-    cout << "\n---------------------------------" << endl;
+    cout << "\n ----------------  ref = 300;-----------------" << endl;
     cout << num << endl;
     cout << ref << endl;
     

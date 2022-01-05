@@ -24,9 +24,9 @@ void display(int *array, int sentinel) {
 
 int main() {
 
-//    cout << "-----------------------------" << endl;
-//    vector<string> stooges {"Larry", "Moe", "Curly"};
-//    display(&stooges);
+   cout << "-----------------------------" << endl;
+   vector<string> stooges {"Larry", "Moe", "Curly"};
+   display(&stooges);
    
     cout << "\n-----------------------------" << endl;
     int scores[] {100,98,97,79,85,-1};

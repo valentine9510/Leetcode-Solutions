@@ -27,13 +27,13 @@ public:
     cout << "Constructor for: " << d << endl;
 }
 
-// Copy ctor
+// Copy Constructor
 Move::Move(const Move &source)
     : Move {*source.data} {
         cout << "Copy constructor  - deep copy for: " << *data << endl;
 }
 
-//Move ctor
+//Move Constructor
 Move::Move(Move &&source) noexcept 
     : data {source.data} {
         source.data = nullptr;

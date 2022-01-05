@@ -7,6 +7,7 @@
  * ***************************************************************/
 #include <iostream>
 #include "Movies.h"
+#include "algorithm"
 
  /*************************************************************************
     Movies no-args constructor
@@ -21,7 +22,7 @@ Movies::~Movies() {
 }
 
   /*************************************************************************
-    add_movie expects the name of the move, rating and watched count
+    add_movie expects the name of the movie, rating and watched count
     
     It will search the movies vector to see if a movie object already exists
     with the same name. 
@@ -32,7 +33,12 @@ Movies::~Movies() {
     *********************************************************************/
 bool Movies::add_movie(std::string name, std::string rating, int watched) {
     // you implement this method
-    return false;
+    if(any_of(this->movies.begin(),this->movies.end(),[&name](Movie &x){ return (x.get_name() == name);})){
+        return false;
+    }
+
+    this->movies.emplace_back(name,rating,watched);
+    return true;
 }
 
  /*************************************************************************
@@ -48,6 +54,12 @@ bool Movies::add_movie(std::string name, std::string rating, int watched) {
     *********************************************************************/
 bool Movies::increment_watched(std::string name) {
    // you implement this method
+   auto it = find(this->movies.begin(),this->movies.end(),[&name](Movie &x){ return (x.get_name() == name);});
+
+   if(it != this->movies.end()){
+       it->increment_watched();
+       return true;
+   }
    return false;
 }
 
@@ -60,4 +72,7 @@ bool Movies::increment_watched(std::string name) {
     *********************************************************************/
 void Movies::display() const {
    // You implement this method
+   for (auto &movie : this->movies){
+       movie.display();
+   }
 }

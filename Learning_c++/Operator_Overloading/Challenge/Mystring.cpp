@@ -90,3 +90,59 @@ std::istream &operator>>(std::istream &in, Mystring &rhs) {
     return in;
 }
 
+bool Mystring::operator==(const Mystring rhs){
+    return (strcmp(this->str,rhs.str) == 0);
+}
+
+bool  Mystring::operator!=(const Mystring rhs){
+    return (strcmp(this->str,rhs.str) != 0);
+}
+
+bool  Mystring::operator<(const Mystring rhs){
+    return (strcmp(this->str,rhs.str) < 0);
+}
+
+bool  Mystring::operator>(const Mystring rhs){
+    return (strcmp(this->str,rhs.str) > 0);
+}
+
+Mystring  Mystring::operator+(const Mystring rhs){
+    //char buf[ std::strlen(rhs.str) +  strlen(this->str) + 1];
+    // char *buf = (char*) malloc((strlen(rhs.str) + strlen(this->str) + 1)*sizeof(char));
+    char *buf = new char[(strlen(rhs.str) + strlen(this->str) + 1)];
+    strcat(buf,this->str);
+    strcat(buf,rhs.str);
+    Mystring temp{buf};
+
+    delete[] buf;
+
+    return temp;
+}
+
+Mystring  Mystring::operator*(int n){
+    // char *buf = (char*) malloc((n*strlen(this->str) + 1)*sizeof(char));
+    char *buf = new char[(n*strlen(this->str) + 1)];
+
+    while(n > 0){
+        strcat(buf,this->str);
+        n--;
+    }
+
+    Mystring temp{buf};
+    delete [] buf;
+    return temp;
+}
+
+Mystring &Mystring::operator*=(int n){
+    delete this->str;
+    *this = this->operator*(n);
+    return *this;
+}
+
+Mystring &Mystring::operator+=(const Mystring rhs){
+    delete this->str;
+
+    *this = this->operator+(rhs);
+
+    return *this;
+}
