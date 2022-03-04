@@ -73,10 +73,16 @@ int main() {
 //    ptr->draw();
 //    ptr->rotate();
 
+    // Shape *s1 = new Circle();
+    // Shape *s2 = new Line();
+    // Shape *s3 = new Square();
+    
     Shape *s1 = new Circle();
     Shape *s2 = new Line();
     Shape *s3 = new Square();
-    
+
+    Shape &shaperef = *s1;
+
     std::vector<Shape *> shapes {s1,s2,s3};
     
 //    for (const auto p: shapes) 

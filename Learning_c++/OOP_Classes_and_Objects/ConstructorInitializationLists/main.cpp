@@ -18,6 +18,11 @@ public:
     Player(std::string name_val, int health_val, int xp_val);
 };
 
+
+// Player::Player(std::string name="", int health = 0, int xp=0)
+//     : name {name}, health {health}, xp{xp}{
+
+//     }
 Player::Player() 
     : name{"None"}, health{0}, xp{0} {
 }

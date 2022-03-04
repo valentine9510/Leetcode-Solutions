@@ -86,17 +86,27 @@ int main() {
     Account *p2 = new Checking();
     std::cout << *p2<< std::endl;  
 
-//    Account a;
-//    std::cout << a<< std::endl;
-//    
-//    Checking c;
-//    std::cout << c << std::endl;
-//
-//    Savings s;
-//    std::cout << s << std::endl;
-//    
-//    Trust t;
-//    std::cout << t << std::endl;
+   Account a;
+   std::cout << a<< std::endl;
+   
+   Checking c;
+   std::cout << c << std::endl;
+
+   Savings s;
+   std::cout << s << std::endl;
+   
+   Trust t;
+   std::cout << t << std::endl;
+
+   I_Printable *p_printable1 = new Trust;
+   std::cout << "p_printable1 "<<*p_printable1 << std::endl;
+   I_Printable *p_printable2 = new Savings;
+   std::cout << "p_printable2 " <<*p_printable2 << std::endl;
+
+   I_Printable &p_printable3 = c;
+   std::cout << "checking p_printable3 "<<p_printable3 << std::endl;
+   I_Printable &p_printable4 = s;
+   std::cout << " savings p_printable4 " <<p_printable4 << std::endl;
         
     delete p1;
     delete p2;
