@@ -56,6 +56,8 @@
         "queue": "cpp",
         "set": "cpp",
         "stack": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "unordered_map": "cpp",
+        "xhash": "cpp"
     }
 }

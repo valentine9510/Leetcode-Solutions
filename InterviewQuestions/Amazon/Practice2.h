@@ -353,5 +353,345 @@ output = [2, 8, 9, 11, 1]
 We can swap [11, 2], followed by [9, 2], then [8, 2].
  */
 vector <int> findMinArray(vector <int> arr, int k);
+
+/**
+ * @brief Given two arrays A and B of length N, determine if there is a way to make A equal to B by reversing any subarrays from array B any number of times.
+Signature
+bool areTheyEqual(int[] arr_a, int[] arr_b)
+Input
+All integers in array are in the range [0, 1,000,000,000].
+Output
+Return true if B can be made equal to A, return false otherwise.
+Example
+A = [1, 2, 3, 4]
+B = [1, 4, 3, 2]
+output = true
+After reversing the subarray of B from indices 1 to 3, array B will equal array A.
+ */
+bool areTheyEqual(vector<int>& array_a, vector<int>& array_b);
+
+struct Node2 {
+  int data;
+  Node2 *next;
+  Node2(int x) : data(x), next(NULL) {}
+};
+
+// Add any helper functions you may need here
+
+/**
+ * @brief You are given a singly-linked list that contains N integers. A subpart of the list is a contiguous set of even elements, bordered either by either end of the list or an odd element. For example, if the list is [1, 2, 8, 9, 12, 16], the subparts of the list are [2, 8] and [12, 16].
+Then, for each subpart, the order of the elements is reversed. In the example, this would result in the new list, [1, 8, 2, 9, 16, 12].
+The goal of this question is: given a resulting list, determine the original order of the elements.
+Implementation detail:
+You must use the following definition for elements in the linked list:
+class Node {
+    int data;
+    Node next;
+}
+Signature
+Node reverse(Node head)
+Constraints
+1 <= N <= 1000, where N is the size of the list
+1 <= Li <= 10^9, where Li is the ith element of the list
+Example
+Input:
+N = 6
+list = [1, 2, 8, 9, 12, 16]
+Output:
+[1, 8, 2, 9, 16, 12]
+ */
+Node2* reverse_LinkedList(Node2 *head);
+
+/**
+ * @brief Revenue Milestones
+We keep track of the revenue Facebook makes every day, and we want to know on what days Facebook hits certain revenue milestones. Given an array of the revenue on each day, and an array of milestones Facebook wants to reach, return an array containing the days on which Facebook reached every milestone.
+Signature
+int[] getMilestoneDays(int[] revenues, int[] milestones)
+Input
+revenues is a length-N array representing how much revenue FB made on each day (from day 1 to day N). milestones is a length-K array of total revenue milestones.
+Output
+Return a length-K array where K_i is the day on which FB first had milestones[i] total revenue. If the milestone is never met, return -1.
+Example
+revenues = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+milestones = [100, 200, 500]
+output = [4, 6, 10]
+Explanation
+On days 4, 5, and 6, FB has total revenue of $100, $150, and $210 respectively. Day 6 is the first time that FB has >= $200 of total revenue.
+ */
+vector<int> getMilestoneDays(vector <int> revenues, vector<int> milestones);
+
+/**
+ * @brief Minimum Length Substrings
+You are given two strings s and t. You can select any substring of string s and rearrange the characters of the selected substring. Determine the minimum length of the substring of s such that string t is a substring of the selected substring.
+Signature
+int minLengthSubstring(String s, String t)
+Input
+s and t are non-empty strings that contain less than 1,000,000 characters each
+Output
+Return the minimum length of the substring of s. If it is not possible, return -1
+Example
+s = "dcbefebce"
+t = "fd"
+output = 5
+Explanation:
+Substring "dcbef" can be rearranged to "cfdeb", "cefdb", and so on. String t is a substring of "cfdeb". Thus, the minimum length required is 5.
+ */
+int minLengthSubstring(string s, string t);
+
+/**
+ * @brief 1 Billion Users
+We have N different apps with different user growth rates. At a given time t, measured in days, the number of users using an app is g^t (for simplicity we'll allow fractional users), where g is the growth rate for that app. These apps will all be launched at the same time and no user ever uses more than one of the apps. We want to know how many total users there are when you add together the number of users from each app.
+After how many full days will we have 1 billion total users across the N apps?
+Signature
+int getBillionUsersDay(float[] growthRates)
+Input
+1.0 < growthRate < 2.0 for all growth rates
+1 <= N <= 1,000
+Output
+Return the number of full days it will take before we have a total of 1 billion users across all N apps.
+Example 1
+growthRates = [1.5]
+output = 52
+Example 2
+growthRates = [1.1, 1.2, 1.3]
+output = 79
+Example 3
+growthRates = [1.01, 1.02]
+output = 1047
+ */
+int getBillionUsersDay(vector <float> growthRates);
+
+
+/**
+ * @brief Balanced splits 
+ * Given an array of integers (which may include repeated integers), determine if there's a way to split the array into two subsequences A and B such that the sum of the integers in both arrays is the same, and all of the integers in A are strictly smaller than all of the integers in B.
+Note: Strictly smaller denotes that every integer in A must be less than, and not equal to, every integer in B.
+Signature
+bool balancedSplitExists(int[] arr)
+Input
+All integers in array are in the range [0, 1,000,000,000].
+Output
+Return true if such a split is possible, and false otherwise.
+Example 1
+arr = [1, 5, 7, 1]
+output = true
+We can split the array into A = [1, 1, 5] and B = [7].
+Example 2
+arr = [12, 7, 6, 7, 6]
+output = false
+We can't split the array into A = [6, 6, 7] and B = [7, 12] since this doesn't satisfy the requirement that all integers in A are smaller than all integers in B.
+ */
+bool balancedSplitExists(vector<int>& arr);
+
+class Node3 {
+public:
+  int val;
+  vector<Node3*> children;
+  
+  Node3() {
+    val = 0;
+    children = vector<Node3*>();
+  }
+  
+  Node3(int _val) {
+    val = _val;
+    children = vector<Node3*>();
+  }
+  
+  Node3(int _val, vector<Node3*> _children) {
+    val = _val;
+    children = _children;
+  }
+};
+
+struct Query {
+  int u; 
+  char c; 
+};
+
+// Add any helper functions you may need here
+
+
+vector<int> countOfNodes(Node3* root, vector<Query> queries, string s);
+
+struct sides{
+  long long a;
+  long long b;
+  long long c;
+};
+
+/**
+ * @brief 
+Counting Triangles
+Given a list of N triangles with integer side lengths, determine how many different triangles there are. Two triangles are considered to be the same if they can both be placed on the plane such that their vertices occupy exactly the same three points.
+Signature
+int countDistinctTriangles(ArrayList<Sides> arr)
+or 
+int countDistinctTrianges(int[][] arr)
+Input
+In some languages, arr is an Nx3 array where arr[i] is a length-3 array that contains the side lengths of the ith triangle. In other languages, arr is a list of structs/objects that each represent a single triangle with side lengths a, b, and c.
+It's guaranteed that all triplets of side lengths represent real triangles.
+All side lengths are in the range [1, 1,000,000,000]
+1 <= N <= 1,000,000
+Output
+Return the number of distinct triangles in the list.
+Example 1
+arr = [[2, 2, 3], [3, 2, 2], [2, 5, 6]]
+output = 2
+The first two triangles are the same, so there are only 2 distinct triangles.
+Example 2
+arr = [[8, 4, 6], [100, 101, 102], [84, 93, 173]]
+output = 3
+All of these triangles are distinct.
+Example 3
+arr = [[5, 8, 9], [5, 9, 8], [9, 5, 8], [9, 8, 5], [8, 9, 5], [8, 5, 9]]
+output = 1
+All of these triangles are the same.
+ */
+int countDistinctTriangles(vector <sides> arr);
+
+
+/**
+ * Encrypted Words
+You've devised a simple encryption method for alphabetic strings that shuffles the characters in such a way that the resulting string is hard to quickly read, but is easy to convert back into the original string.
+When you encrypt a string S, you start with an initially-empty resulting string R and append characters to it as follows:
+Append the middle character of S (if S has even length, then we define the middle character as the left-most of the two central characters)
+Append the encrypted version of the substring of S that's to the left of the middle character (if non-empty)
+Append the encrypted version of the substring of S that's to the right of the middle character (if non-empty)
+For example, to encrypt the string "abc", we first take "b", and then append the encrypted version of "a" (which is just "a") and the encrypted version of "c" (which is just "c") to get "bac".
+If we encrypt "abcxcba" we'll get "xbacbca". That is, we take "x" and then append the encrypted version "abc" and then append the encrypted version of "cba".
+Input
+S contains only lower-case alphabetic characters
+1 <= |S| <= 10,000
+Output
+Return string R, the encrypted version of S.
+Example 1
+S = "abc"
+R = "bac"
+Example 2
+S = "abcd"
+R = "bacd"
+ */
+string findEncryptedWord(string s);
+
+/**
+ * @brief Change in a Foreign Currency
+You likely know that different currencies have coins and bills of different denominations. In some currencies, it's actually impossible to receive change for a given amount of money. For example, Canada has given up the 1-cent penny. If you're owed 94 cents in Canada, a shopkeeper will graciously supply you with 95 cents instead since there exists a 5-cent coin.
+Given a list of the available denominations, determine if it's possible to receive exact change for an amount of money targetMoney. Both the denominations and target amount will be given in generic units of that currency.
+Signature
+boolean canGetExactChange(int targetMoney, int[] denominations)
+Input
+1 ≤ |denominations| ≤ 100
+1 ≤ denominations[i] ≤ 10,000
+1 ≤ targetMoney ≤ 1,000,000
+Output
+Return true if it's possible to receive exactly targetMoney given the available denominations, and false if not.
+Example 1
+denominations = [5, 10, 25, 100, 200]
+targetMoney = 94
+output = false
+Every denomination is a multiple of 5, so you can't receive exactly 94 units of money in this currency.
+Example 2
+denominations = [4, 17, 29]
+targetMoney = 75
+output = true
+You can make 75 units with the denominations [17, 29, 29]. 
+ */
+bool canGetExactChange(int targetMoney, vector<int>& denominations);
+
+
+/**
+ * @brief Minimizing Permutations
+In this problem, you are given an integer N, and a permutation, P of the integers from 1 to N, denoted as (a_1, a_2, ..., a_N). You want to rearrange the elements of the permutation into increasing order, repeatedly making the following operation:
+Select a sub-portion of the permutation, (a_i, ..., a_j), and reverse its order.
+Your goal is to compute the minimum number of such operations required to return the permutation to increasing order.
+Signature
+int minOperations(int[] arr)
+Input
+Array arr is a permutation of all integers from 1 to N, N is between 1 and 8
+Output
+An integer denoting the minimum number of operations required to arrange the permutation in increasing order
+Example
+If N = 3, and P = (3, 1, 2), we can do the following operations:
+Select (1, 2) and reverse it: P = (3, 2, 1).
+Select (3, 2, 1) and reverse it: P = (1, 2, 3).
+output = 2
+ */
+int minOperations(vector <int> arr);
+
+/**
+ * @brief Matching Pairs
+Given two strings s and t of length N, find the maximum number of possible matching pairs in strings s and t after swapping exactly two characters within s.
+A swap is switching s[i] and s[j], where s[i] and s[j] denotes the character that is present at the ith and jth index of s, respectively. The matching pairs of the two strings are defined as the number of indices for which s[i] and t[i] are equal.
+Note: This means you must swap two characters at different indices.
+Signature
+int matchingPairs(String s, String t)
+Input
+s and t are strings of length N
+N is between 2 and 1,000,000
+Output
+Return an integer denoting the maximum number of matching pairs
+Example 1
+s = "abcd"
+t = "adcb"
+output = 4
+Explanation:
+Using 0-based indexing, and with i = 1 and j = 3, s[1] and s[3] can be swapped, making it  "adcb".
+Therefore, the number of matching pairs of s and t will be 4.
+Example 2
+s = "mno"
+t = "mno"
+output = 1
+Explanation:
+Two indices have to be swapped, regardless of which two it is, only one letter will remain the same. If i = 0 and j=1, s[0] and s[1] are swapped, making s = "nmo", which shares only "o" with t.
+ */
+int matchingPairs(string s, string t);
+
+/**
+ * @brief Seating Arrangements
+There are n guests attending a dinner party, numbered from 1 to n. The ith guest has a height of arr[i-1] inches.
+The guests will sit down at a circular table which has n seats, numbered from 1 to n in clockwise order around the table. As the host, you will choose how to arrange the guests, one per seat. Note that there are n! possible permutations of seat assignments.
+Once the guests have sat down, the awkwardness between a pair of guests sitting in adjacent seats is defined as the absolute difference between their two heights. Note that, because the table is circular, seats 1 and n are considered to be adjacent to one another, and that there are therefore n pairs of adjacent guests.
+The overall awkwardness of the seating arrangement is then defined as the maximum awkwardness of any pair of adjacent guests. Determine the minimum possible overall awkwardness of any seating arrangement.
+Signature
+int minOverallAwkwardness(int[] arr)
+Input
+n is in the range [3, 1000].
+Each height arr[i] is in the range [1, 1000].
+Output
+Return the minimum achievable overall awkwardness of any seating arrangement.
+Example
+n = 4
+arr = [5, 10, 6, 8]
+output = 4
+If the guests sit down in the permutation [3, 1, 4, 2] in clockwise order around the table (having heights [6, 5, 8, 10], in that order), then the four awkwardnesses between pairs of adjacent guests will be |6-5| = 1, |5-8| = 3, |8-10| = 2, and |10-6| = 4, yielding an overall awkwardness of 4. It's impossible to achieve a smaller overall awkwardness. 
+ */
+int minOverallAwkwardness(vector <int> arr);
+
+
+/**
+ * @brief Queue Removals
+You're given a list of n integers arr, which represent elements in a queue (in order from front to back). You're also given an integer x, and must perform x iterations of the following 3-step process:
+Pop x elements from the front of queue (or, if it contains fewer than x elements, pop all of them)
+Of the elements that were popped, find the one with the largest value (if there are multiple such elements, take the one which had been popped the earliest), and remove it
+For each one of the remaining elements that were popped (in the order they had been popped), decrement its value by 1 if it's positive (otherwise, if its value is 0, then it's left unchanged), and then add it back to the queue
+Compute a list of x integers output, the ith of which is the 1-based index in the original array of the element which had been removed in step 2 during the ith iteration.
+Signature
+int[] findPositions(int[] arr, int x)
+Input
+x is in the range [1, 316].
+n is in the range [x, x*x].
+Each value arr[i] is in the range [1, x].
+Output
+Return a list of x integers output, as described above.
+Example
+n = 6
+arr = [1, 2, 2, 3, 4, 5]
+x = 5
+output = [5, 6, 4, 1, 2]
+The initial queue is [1, 2, 2, 3, 4, 5] (from front to back). 
+ */
+vector <int> findPositions(vector <int> arr, int x);
+
 #endif //PRACTICE2
 

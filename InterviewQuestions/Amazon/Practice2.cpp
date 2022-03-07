@@ -7,48 +7,547 @@
 #include <stack>
 #include <list>
 #include <map>
+#include <unordered_map>
+#include <math.h>
 #include "PractiseQns.h"
 #include "Practice2.h"
 
 using namespace std;
 int main(){
-    vector<vector<int>> calendar (4, vector<int>(7,0));
-    int data = 23;
-    int &refData = data;
-
-    cout << refData;
+    cout << "Min operations on {3,1,2} : " << minOperations({3,1,2});
    
     return 0;
 }
 
 /**
- * @brief Plan for each swap, find the largest difference, swap those two
+ * @brief Pop all elements onto a queue or vector, in pair format <number, original index>
+ * Find the first largest Value
+ * Remove it 
+ * For each of the elements, if greater than 0, remove -1 and add them back to queue
  */
-vector <int> findMinArray(vector <int> arr, int k) {
+vector <int> findPositions(vector <int> arr, int x) {
   // Write your code here
-    if(arr.size() < 2) return arr;
+  queue<pair<int, int>> tempQueue;
+  int originalElementsToRemove = x;
+  vector<int> solution;
+  for(auto i = 0; i < arr.size(); i++){
+      tempQueue.push(std::make_pair(arr[i],i+1)); //First is the number, second is original index
+  }
 
-  while(k > 0){
-    //Find biggest difference
-    int elementOne = 0; int elementTwo = 0; int difference = INT_MIN;
+  while (x > 0)
+  {
+      cout << "Current Queue : " ;
+      auto it = tempQueue;
+      while(!it.empty()){
+          cout << it.front().first << " ";
+          it.pop();
+      }
+      cout << endl;
 
-    for(auto i = 1; i < arr.size(); i++){ //Find largest difference
-       if((arr.at(i-1)-arr.at(i)) >= difference){
-           difference = (arr.at(i-1)-arr.at(i));
-           elementOne = i;
-           elementTwo = i-1; //Get indices
-       }             
-    }
 
-    //swap
-    int temp = arr.at(elementOne);
-    arr.at(elementOne) = arr.at(elementTwo);
-    arr.at(elementTwo) = temp;
+      pair<int,int> largestElement = make_pair(INT_MIN,INT_MIN);
+      //Have another queue to temporarily store items
+      queue<pair<int, int>> tempQ2;
 
-    k--;
+      //Pop off queue
+      for(auto i = 0; !tempQueue.empty() && i < originalElementsToRemove; i++){ //Find largest element, remove it and add it to solution
+            if(tempQueue.front().first > largestElement.first){
+                largestElement = tempQueue.front();
+            }
+            //Push to our second queue
+            tempQ2.push(tempQueue.front());
+            //Pop
+            tempQueue.pop();
+      }
+      //Add largest index to solution
+      if(largestElement.first != INT_MIN) solution.push_back(largestElement.second);
+
+      //Push back onto original queue but not include largest number
+      while(!tempQ2.empty()){
+          if(tempQ2.front().second != largestElement.second){
+              auto tempPair = tempQ2.front();
+              if(tempPair.first > 0) tempPair.first--;
+              tempQueue.push(tempPair);
+          }
+          tempQ2.pop();
+      }
+
+      x--;
   }
   
-  return arr;
+  
+  return solution;
+}
+
+/**
+ * @brief Plan sort the array
+ * Flip the last half and that should be good 
+ */
+int minOverallAwkwardness(vector <int> arr) {
+    if(arr.size()==0) return 0;
+    if(arr.size() == 1) return arr[0];
+  // Write your code here
+  sort(arr.begin(),arr.end());
+  //Reverse mid+1 to end
+  int mid = arr.size()/2;
+  if(arr.size()%2 == 0){
+      reverse(arr.begin()+mid,arr.end()); //Even
+  } else {
+      reverse(arr.begin()+mid+1,arr.end()); //Odd number
+  }
+
+  //Count differences
+  int maxDifference = arr[arr.size()-1] - arr[0];
+
+  for(int i = 0; i < arr.size()-1; i++){
+      maxDifference = std::max(maxDifference,(std::abs(arr[i] - arr[i+1])));
+  }
+
+  return maxDifference;  
+}
+
+
+int countPairs(string s, string t){
+    int result = 0;
+    int maxPairs = 0;
+
+    for(int i = 0; i < s.size(); i++){
+        if(s[i] == t[i]){
+            result++;
+        } else {
+            result = 0;
+            maxPairs = std::max(result,maxPairs);
+        }
+    }
+    maxPairs = std::max(result,maxPairs);
+
+    return maxPairs;
+}
+
+//Plan swap element and count to see pairs
+//You can use a set or map to store previous values
+
+int matchingPairs(string s, string t) {
+  // Write your code here
+  int maxPairs = INT_MIN;
+
+  for(int i = 0; i < s.size(); i++){
+      for(int j = 0; j < s.size(); j++){
+          if(i == j) continue;
+          //swap
+          char tempChar_i = s[i];
+          char tempChar_j = s[j];
+
+          s[j] = tempChar_i;
+          s[i] = tempChar_j;
+          maxPairs = std::max(maxPairs,countPairs(s,t));
+
+          //Swap back
+          s[j] = tempChar_j;
+          s[i] = tempChar_i;
+
+
+      }
+  }
+    return maxPairs;
+}
+/**
+ * @brief Plan
+ * Find maxElement, 
+ * if element is already at end of list, pop it off and continue
+ * Else flip it so that it goes to the end of the list
+ * Pop off the last element from the list
+ * Repeat this until array is sorted
+ */
+
+int minOperationsHelper(vector<int> arr,int currentSwaps){
+    if(arr.size() < 2 || is_sorted(arr.begin(),arr.end())) return currentSwaps; //Single element array is already sorted
+
+    //Find max
+    int minSwaps;
+    int maxElement = INT_MIN; int maxIndex;
+
+    for(int i =0; i<arr.size();i++){
+        if(arr.at(i) >= maxElement){
+            maxElement = arr[i];
+            maxIndex = i;
+        }
+    }
+
+    auto maxElementIterator = max_element(arr.begin(),arr.end());
+    if(maxIndex == arr.size()-1){ //Already in last position
+        arr.pop_back(); //remove the last element
+        minSwaps = minOperationsHelper(arr,currentSwaps);
+    } else {
+        //Reverse to made it to the end
+        reverse(arr.begin()+maxIndex,arr.end());
+        minSwaps = minOperationsHelper(arr,currentSwaps+1);
+    }  
+
+    return minSwaps;
+}
+
+int minOperations(vector <int> arr) {
+  // Write your code here
+  return minOperationsHelper(arr,0);
+  
+}
+
+/**
+ * @brief Plan if targetMoney is 0 return true; if < 0 return false;
+ * if any of the denominations is a factor of targetMoney return true;
+ * repeat for each remainder
+ */
+bool canGetExactChange(int targetMoney, vector<int>& denominations){
+  // Write your code here
+  if(targetMoney == 0) return true; //targetReached
+  if(targetMoney < 0) return false; //targetExceeded
+
+  
+  bool result = false;
+  for(int i =0; i<denominations.size(); i++){
+      if(targetMoney%denominations.at(i) == 0) return true; //if any is a factor, automatic yes
+      result = result | canGetExactChange(targetMoney-denominations.at(i),denominations);
+  }
+  
+  return result;
+}
+
+
+string findEncryptedWord(string s) {
+  // Write your code here
+  string result;
+  if(s.size() < 2) return s; //for empty or single char string
+
+  int middleIndex = s.size()/2;
+  if(s.size()%2 == 0) middleIndex--; //If even, take the left most character
+  result.push_back(s.at(middleIndex));
+
+
+  //Get rightSide
+  string rightSide = "";
+  if(middleIndex+1 < s.size()) rightSide = s.substr(middleIndex+1);
+  //Get leftSide
+  string leftSide = "";
+  if(middleIndex-1 >= 0) leftSide = s.substr(0,middleIndex);
+ 
+  return result + findEncryptedWord(leftSide) + findEncryptedWord(rightSide);
+}
+
+/**
+ * @brief Plan For each side, sort and add to a set
+ * return the set size
+ */
+int countDistinctTriangles(vector <sides> arr) {
+  set<vector<int>> solution;
+  
+  for(auto side : arr){
+      vector<int> tempTriangle;
+      tempTriangle.push_back(side.a); tempTriangle.push_back(side.b); tempTriangle.push_back(side.c);
+      sort(tempTriangle.begin(),tempTriangle.end());
+      solution.insert(tempTriangle);
+  }
+
+    return solution.size();
+  
+}
+
+
+
+//For each query
+//Look for the node with int u
+//Count the number of nodes in subtree with char
+Node3* findNode(Node3* root, int u){
+    if(root == NULL) return root;
+    if(root->val == u) return root;
+
+    Node3* result = NULL;
+    for(auto child : root->children){
+        if(findNode(child,u) != NULL){
+            result = child;
+            break;
+        }
+    }
+
+    return result;
+}
+
+void countNodesEqual(Node3*root, char c, int& currentMax, string s){
+    if(root == NULL) return;
+    if(s.at(root->val - 1) == c) currentMax++;
+
+    for(auto child : root->children){
+        countNodesEqual(root,c,currentMax,s);
+    }
+
+}
+vector<int> countOfNodes(Node3* root, vector<Query> queries, string s){
+    vector<int> solution;
+
+    for(auto query: queries){
+        int currentMax = 0;
+        countNodesEqual(findNode(root,query.u),query.c,currentMax,s);
+        solution.push_back(currentMax);
+    }
+
+    return solution;
+}
+
+/**
+ * @brief Plan, sort the array in ascending order
+ * Have left and right pointers and sums of left and right
+ * while left < right, 
+ *      if sumLeft <= sumRight, add to leftSum; left++;
+ *      else add to rightSum; right--;
+ *
+ *      If at any point, right value <= left value, return false;
+ * 
+ * Once out, if sum is equal, return true
+ * 
+ */
+bool balancedSplitExists(vector<int>& arr){
+  // Write your code here
+  if(arr.size() < 2) return false;
+  sort(arr.begin(),arr.end());
+
+
+  int leftIndex = 0;
+  int rightIndex = arr.size()-1;
+  int leftMax = arr.at(leftIndex); int rightMin = arr.at(rightIndex); //Keep track of my max value
+  int leftSum = 0; 
+  int rightSum = 0;
+  
+  while(leftIndex <= rightIndex){
+
+      if(leftSum <= rightSum){
+          leftMax = std::max(leftMax,arr.at(leftIndex));
+          leftSum += arr.at(leftIndex);
+          cout << "Adding to left sum :" << arr.at(leftIndex) << endl;
+          leftIndex++;
+
+      } else {
+          rightMin = std::min(rightMin,arr.at(rightIndex));
+          rightSum += arr.at(rightIndex);
+          cout << "Adding to right sum :" << arr.at(rightIndex) << endl;
+          rightIndex--;
+      }
+
+      
+  }
+    if(leftMax >= rightMin) return false;
+    cout << "left sum :" << leftSum << endl;
+    cout << "right sum :" << rightSum << endl;
+  return (rightSum == leftSum);
+}
+
+/**
+ * @brief Plan the largest value is the leader so we can start from that number and count down 
+ * Log(goal)/log(largest growth), this gets us an upper bound
+ * Then start reducing until the first time you reach below goal and return days
+ */
+int getBillionUsersDay(vector <float> growthRates) {
+  // Write your code here
+  sort(growthRates.rbegin(), growthRates.rend());
+  float goal = 1000000000;
+  int days = 1 + (int)(log10(goal)/log10(growthRates.at(0)));
+  
+
+  while (true)
+  {
+      float sum = 0;
+
+      for(auto i = 0; i < growthRates.size(); i++){
+          sum = sum + pow(growthRates.at(i),days);
+      }
+
+      if(sum <= goal)break;
+
+      days--; //reduce days
+  }
+  
+    return days+1;
+}
+
+
+/**
+ * @brief Plan
+ * Add t to map
+ * loop through s, if value is in map, remove it from map
+ * if set is empty, return solution, else return -1
+ */
+int minLengthSubstring(string s, string t) {
+  // Write your code here
+  if(t.size() > s.size()) return -1;
+
+  int solution = 0;
+  bool inSearch = false;
+  
+  for(auto i=0; i< s.size(); i++){
+      int charIndex = t.find(s[i]);    
+      cout << "charIndex : " << charIndex << endl; 
+
+      if(charIndex != -1){
+          inSearch = true;
+          cout << "t before : " << t << endl; 
+          t.erase(charIndex,1);
+          cout << "t after : " << t << endl; 
+      }
+      if(inSearch) solution++;
+
+      if(t.size()==0) break;
+  }
+  
+  
+  return (t.size()==0)?-1:solution;
+}
+
+
+/**
+ * @brief 
+ * 
+ * @param array_a 
+ * @param array_b 
+ * @return true 
+ * @return false 
+ */
+bool areTheyEqual(vector<int>& array_a, vector<int>& array_b){
+  // Write your code here
+  //Sort both and check for equality
+  sort(array_a.begin(),array_a.end());
+  sort(array_b.begin(),array_b.end());
+
+  return array_a == array_b;
+  
+}
+
+/**
+ * @brief Plan
+ * Initiate a solution filled with -1
+ * Initiate a sum, loop through revenue while summing
+ * For milestone, if it is negative one and the sum >= milestone, change that index in the solution
+ */
+vector<int> getMilestoneDays(vector <int> revenues, vector<int> milestones) {
+  // Write your code here
+  vector<int> solution (milestones.size(),-1);
+  int sum = 0;
+
+  for(int i = 0; i < revenues.size(); i++){
+      sum+=revenues.at(i);
+
+      for(int j = 0; j<milestones.size(); j++){
+          if( solution.at(j) == -1 && sum >= milestones.at(j)){
+              solution.at(j) = i+1;
+          }
+      }
+  }
+
+  
+  return solution;
+}
+
+/**
+ * @brief Plan 
+ * temp = head
+ * While temp is NOT null
+ * 
+ * Look for an even number -> if found, keep that start position
+ * while even number -> add to a stack, temp = temp->next
+ * while stack is not empty -> unload onto the start position
+ * 
+ * 
+ * 
+ *  
+ */
+Node2* reverse_LinkedList(Node2 *head){
+    Node2 *temp = head;
+
+    while (temp != NULL){
+        if((temp->data)%2 == 0){ //If even
+            stack<int> tempStack;
+            Node2 *startPosition = temp;
+
+            while (temp != NULL && (temp->data)%2 == 0) //Add the contigous values onto a stack
+            {
+                tempStack.push(temp->data);
+                temp = temp->next;
+            }
+            
+            //Unload values into the start position
+            while(!tempStack.empty()){
+                startPosition->data = tempStack.top();
+                startPosition = startPosition->next; //Advance node for next update
+                tempStack.pop(); //Pop off stack
+            }
+            
+
+        } else {
+            temp = temp->next;
+        }
+    }
+
+    return head;
+}
+
+/**
+ * @brief Plan for each step
+ * If k == 0 return current array
+ * if sorted() return currentarray
+ * If smallest element is in the front, remove it or startIndex+1
+ * Find smallest element with startIndex to startIndex + k
+ *      swap it with the front
+ *      remaining swaps is k-index
+ */
+
+vector<int> findMindArrayHelper(vector<int> arr, int k, int startIndex = 0){
+    if(arr.size() == 0) return arr;
+    if(k == 0) return arr;
+    if(is_sorted(arr.begin(),arr.end())) return arr;
+
+    //Find minElement
+    int minElement = INT_MAX; int minIndex;
+
+    for(int i = startIndex; i <= k && i < arr.size() ; i++){ //Dont wannt go out of bounds
+        if(arr[i] < minElement){
+            minElement = arr[i];
+            minIndex = i;
+        }
+    }
+    //Swap 
+    int tempInt = arr[minIndex];
+    arr[minIndex] = arr[startIndex];
+    arr[startIndex] = tempInt;
+    int remainingSwaps = minIndex - startIndex;
+    
+
+    return findMindArrayHelper(arr,remainingSwaps,startIndex+1);
+}
+
+vector<int> findMinArray(vector <int> arr, int k) {
+    return findMindArrayHelper(arr,k,0);
+  // Write your code here
+//     if(arr.size() < 2) return arr;
+
+//   while(k > 0){
+//     //Find biggest difference
+//     int elementOne = 0; int elementTwo = 0; int difference = INT_MIN;
+
+//     for(auto i = 1; i < arr.size(); i++){ //Find largest difference
+//        if((arr.at(i-1)-arr.at(i)) >= difference){
+//            difference = (arr.at(i-1)-arr.at(i));
+//            elementOne = i;
+//            elementTwo = i-1; //Get indices
+//        }             
+//     }
+
+//     //swap
+//     int temp = arr.at(elementOne);
+//     arr.at(elementOne) = arr.at(elementTwo);
+//     arr.at(elementTwo) = temp;
+
+//     k--;
+//   }
+  
+//   return arr;
 }
 
 /**
