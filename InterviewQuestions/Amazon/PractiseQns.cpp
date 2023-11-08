@@ -1304,24 +1304,6 @@ vector<int> twoSum(vector<int>& nums, int target) {
     //Have a map
     //Store : target-index value as the key, index as the value
     // If the target-index value exists as a key in the map, return current index and the value there
-
-    // int first, second;
-    //     bool flag;
-    //     for (int i = 0; i < nums.size(); i++) {
-    //         flag = false;
-    //         for (int j = i+1; j < nums.size(); j++) {
-    //             if (nums[i] + nums[j] == target) {
-    //                 first = i;
-    //                 second = j;
-    //                 flag = true;
-    //                 break;
-    //             }
-    //         }
-    //         if (flag) break;
-    //     }
-    //     return {first, second}; 
-    // }
-
     vector<int> solution;
     std::map<int,int> remainders;
 
@@ -1477,6 +1459,38 @@ bool isPalindrome(string &s){
     // }
 
     return true;
+}
+
+/**
+ * @brief Binary search
+ * check for mid
+ * if mid, return
+ * if target > mid, low = mid+1
+ * if target < mid, high = mid-1
+ * 
+ * @param nums 
+ * @param target 
+ * @return int 
+ */
+int search(vector<int>& nums, int target) {
+    int retVal = -1;
+    int low = 0;
+    int high = nums.size()-1;
+
+    while (low <= high)
+    {
+        int mid = low + (high-low)/2;
+        if(target == nums.at(mid)){
+            retVal = mid;
+            break;
+        } else if (target > nums.at(mid)) {
+            low = mid+1;
+        } else {
+            high = mid-1;
+        }
+    }
+
+    return retVal;
 }
 
 //Plan

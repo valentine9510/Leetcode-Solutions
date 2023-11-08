@@ -14,6 +14,7 @@
 
 using namespace std;
 int main(){
+    cout << "Hello" << endl;
     cout << "Min operations on {3,1,2} : " << minOperations({3,1,2});
    
     return 0;
@@ -900,6 +901,37 @@ bool isAnagram(string s, string t) {
        sort(t.begin(),t.end());
 
        return (s==t);
+}
+
+bool isAnagram(string s, string t) {
+    if(s.size() != t.size()) return false;
+
+    unordered_map<char, int> storage; //key and value
+
+    for(int i = 0; i<s.size(); i++){
+        if(storage.find(s.at(i)) == storage.end()){
+            //not in map
+            storage.insert(make_pair(s.at(i),1));
+        } else {
+            storage.at(s.at(i))++; //increment counter
+        }
+    }
+
+    for(int i = 0; i<t.size(); i++){
+        if(storage.find(t.at(i)) == storage.end()){
+            //not in map
+            return false;
+        } else {
+            storage.at(t.at(i))--; //increment counter
+        }
+    }
+
+    //loop through map
+    for(auto it = storage.begin(); it != storage.end(); it++){
+        if(it->second != 0) return false;
+    }
+
+    return true;
 }
 
 /**

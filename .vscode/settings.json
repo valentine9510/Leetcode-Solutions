@@ -59,5 +59,6 @@
         "xtree": "cpp",
         "unordered_map": "cpp",
         "xhash": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe"
 }
