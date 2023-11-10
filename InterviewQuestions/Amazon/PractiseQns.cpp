@@ -641,6 +641,40 @@ int diameterOfBinaryTree(TreeNode* root){
     return std::max(maxVal,std::max(diameterOfBinaryTree(root->left),diameterOfBinaryTree(root->right)));
 }
 
+/**
+ * @brief Return longest path to a leaf node
+ * 
+ */
+int longestPathToLeaf(TreeNode* root){
+    if(root==NULL) return 0;
+    if(root->left == NULL && (root->right == NULL)) return 1;
+
+    return 1 + max(longestPathToLeaf(root->left), longestPathToLeaf(root->right));
+}
+
+/**
+ * @brief Base case
+ * Node has not root -> diameter is 0
+ * Node has one root -> return maxDiameter of root
+ * Node has two roots -> maxOf( 2 + longestpathToLeafOnLeft + OnRight, diameter of right, diameter of left )
+ * 
+ */
+int diameterOfBinaryTree(TreeNode* root) {
+    if(root == NULL) return 0;
+    if(root->left == NULL && (root->right == NULL)) return 0;
+
+    //find diameter of this node
+    int diameter = longestPathToLeaf(root->right) + longestPathToLeaf(root->left);
+    int leftTreeDiameter = diameterOfBinaryTree(root->left);
+    int rightTreeDiameter = diameterOfBinaryTree(root->right);
+
+    int maxDiameter = max(diameter, leftTreeDiameter);
+    maxDiameter = max(maxDiameter, rightTreeDiameter);
+
+    return maxDiameter;
+
+}
+
 
 /**
  * @brief if NULL return
@@ -1491,6 +1525,39 @@ int search(vector<int>& nums, int target) {
     }
 
     return retVal;
+}
+
+/**
+ * @brief Palindrome has a pair of every letter
+ * Traverse through the list as I place the values into a hashmap
+ * Key is char : Value is the number of times the letter occurs
+ * After that, count the occurances of each letter using frequency/2 
+ * if total_frequency*2 == sizeofS, return sizeofS
+ * else return freq*2 + 1
+ * 
+ * https://leetcode.com/problems/longest-palindrome/description/
+ * 
+ */
+int longestPalindrome_blinkList75(string s) {
+    int totalFrequency = 0;
+    unordered_map<char, int> store;
+
+    for(char letter : s){
+        if(store.find(letter) == store.end()){
+            //not in store
+            store.insert(make_pair(letter,1));
+        } else {
+            store.at(letter)++; //increase on the count
+        }
+    }
+
+    for(auto storeIterator = store.begin(); storeIterator != store.end(); storeIterator++){
+        totalFrequency += storeIterator->second/2; //Only add pairs
+    }
+
+    if(totalFrequency*2 == s.size()) return s.size();
+
+    return totalFrequency*2 + 1;
 }
 
 //Plan

@@ -58,7 +58,13 @@
         "stack": "cpp",
         "xtree": "cpp",
         "unordered_map": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "barrier": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "latch": "cpp",
+        "semaphore": "cpp",
+        "valarray": "cpp"
     },
     "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe"
 }

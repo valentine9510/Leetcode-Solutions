@@ -21,6 +21,188 @@ int main(){
 }
 
 /**
+ * @brief There are 2 solutions. The better one is to just use another string where you push to the front.
+ * 
+ * @param a 
+ * @param b 
+ * @return string 
+ */
+string addBinary(string a, string b) {
+        //get a
+        long long int a_value = 0;
+        long long int b_value = 0;
+
+        for(char i : a){
+            if(i == '1') a_value = a_value|1;
+            a_value <<= 1;
+        }
+        a_value >>= 1;
+
+        for(char i : b){
+            if(i == '1') b_value = b_value|1;
+            b_value <<= 1;
+        }
+        b_value >>= 1;
+
+        long long int total = a_value+b_value;
+
+        string answer;
+
+        while (total > 0)
+        {
+            if(total&1 == 1){ //there is a 1
+                answer.insert(0,"1");
+            } else {
+                answer.insert(0,"0");
+            }
+
+            total = total >> 1;
+        }
+
+        if(answer.size() == 0){
+            answer.insert(0,"0");
+        }
+
+        return answer;
+    }
+
+unordered_map<int, int> climbStairs_pathways;
+int climbStairs(int n) {
+        if(n <= 2) return n;
+
+        //now we have 2 extra ways
+        if(climbStairs_pathways.find(n-1) == climbStairs_pathways.end()){ //not found
+            climbStairs_pathways.insert(make_pair((n-1), climbStairs(n-1)));
+        }
+
+        if(climbStairs_pathways.find(n-2) == climbStairs_pathways.end()){ //not found
+            climbStairs_pathways.insert(make_pair((n-2), climbStairs(n-2)));
+        }
+
+        
+        return climbStairs_pathways.at(n-1) +  climbStairs_pathways.at(n-2); //we can even add a map to avoid redoing things
+    }
+
+int findBSTHeight(TreeNode* root){
+    if(root == NULL) return 0;
+
+    int leftHeight = findBSTHeight(root->left);
+    int righttHeight = findBSTHeight(root->right);
+
+    if(leftHeight == -1 || righttHeight == -1 || (abs(leftHeight - righttHeight)>1)){
+        return -1; //unequal
+    }
+
+    return 1 + max(leftHeight, righttHeight);
+}
+
+/**
+ * @brief Find height of left and height of right
+ * Difference should be less than one
+ * 
+ * @param root 
+ * @return true 
+ * @return false 
+ */
+bool isBalanced(TreeNode* root) {
+    if(root == NULL) return true;
+    return (findBSTHeight(root) != -1 );
+}
+
+/**
+ * @brief Use binary search to make it fast
+ * 
+ * @param n 
+ * @return int 
+ */
+bool isBadVersion(int i){
+    return true;
+}
+int firstBadVersion(int n) {
+    int low = 1;
+    int high = n;
+    int firstBad = n;
+
+    while (low <= high)
+    {
+        int mid = (high+low)/2;
+
+        if(isBadVersion(mid)){
+            firstBad = min(mid, firstBad); //update minimum
+            high = mid-1; //go left to find first bad version
+        } else {
+            //if it a good one, then go right to find the first bad one
+            low = mid+1;
+        }
+    }
+
+    return firstBad;        
+}
+
+/**
+ * @brief Place magazine in map, key is char; value is number of times that char occurs
+ * Go through every value in the ransomNote, if it found in the map and the value of chars is more than 0 then move to next value
+ * return true if you manage to complete ransomNote
+ * 
+ */
+
+bool canConstruct(string ransomNote, string magazine) {
+    unordered_map<char, int> magazineStore;
+
+    for(char i : magazine){ //update store magazine
+        if(magazineStore.find(i) == magazineStore.end()){
+            //not in magazine
+            magazineStore.insert(make_pair(i,1));
+        } else {
+            magazineStore.at(i)++; //else add on the count
+        }
+    }
+
+    //now go through ransomNote
+    for(int i = 0; i < ransomNote.size(); i++){
+        if(magazineStore.find(ransomNote[i]) == magazineStore.end()){
+            return false; //not in map
+        } else {
+            //in map
+            magazineStore.at(ransomNote[i])--;
+
+            if(magazineStore.at(ransomNote[i]) < 0){
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+/**
+ * @brief Iterate through array, place values into map keeping track of the frequency
+ * 
+ * @param nums 
+ * @return int 
+ */
+int majorityElement(vector<int>& nums) {
+    unordered_map<int, int> store;
+    int maxElement = nums.at(0);
+    int maxFreqency = 0;
+
+    for(int i = 0; i < nums.size(); i++){
+        if(store.find(nums.at(i)) == store.end()){
+            store.insert(make_pair(nums.at(i),1));
+        } else {
+            store.at(nums.at(i))++;
+        }
+
+        if(store.at(nums.at(i)) > maxFreqency){
+            maxFreqency = store.at(nums.at(i));
+            maxElement = nums.at(i);
+        }
+    }
+
+    return maxElement;
+}
+
+/**
  * @brief Pop all elements onto a queue or vector, in pair format <number, original index>
  * Find the first largest Value
  * Remove it 
@@ -1021,6 +1203,30 @@ bool hasCycle(ListNode *head) {
     }
 
     return false;
+}
+
+bool hasCycle(ListNode *head) {
+    ListNode* slow = head;
+    ListNode*fast = NULL;
+    if(head != NULL){
+        fast = head->next;
+    }
+
+    while (slow!=NULL && fast!=NULL)
+    {
+        if(slow == fast) return true;
+        if(fast->next != NULL){ //update fast
+            if(slow == fast->next) return true;
+            fast = fast->next->next;
+        } else {
+            fast= fast->next;
+        }
+
+        slow = slow->next; //update slow
+    }
+    
+    return false; //they both hit null so no cycle
+        
 }
 
 /**
