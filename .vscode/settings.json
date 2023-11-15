@@ -66,5 +66,6 @@
         "semaphore": "cpp",
         "valarray": "cpp"
     },
-    "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe"
+    "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+    "C_Cpp.errorSquiggles": "enabled"
 }

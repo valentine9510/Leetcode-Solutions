@@ -251,21 +251,21 @@ int maxCandies(vector <int> arr, int k);
  * 
  * 
  * */
-struct Node {
-  int data; 
-  Node* left ; 
-  Node* right; 
-  Node() {
-    data = 0; 
-    left = NULL; 
-    right = NULL; 
-  }
-  Node(int data) {
-    this->data = data; 
-    this->left = NULL; 
-    this->right = NULL; 
-  }
-};
+// struct Node {
+//   int data; 
+//   Node* left ; 
+//   Node* right; 
+//   Node() {
+//     data = 0; 
+//     left = NULL; 
+//     right = NULL; 
+//   }
+//   Node(int data) {
+//     this->data = data; 
+//     this->left = NULL; 
+//     this->right = NULL; 
+//   }
+// };
 
 int visibleNodes(Node* root);
 
