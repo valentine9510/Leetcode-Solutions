@@ -1,25 +1,24 @@
 #include <bits/stdc++.h>
-#include <cctype>
 #include <iostream>
 #include <vector>
-#include <set>
-#include <unordered_set>
-#include <sstream>
-#include <queue>
-#include <stack>
-#include <list>
-#include <map>
-#include <unordered_map>
-#include <math.h>
 #include <algorithm>
 
 using namespace std;
 
 /////////////////////////////////////////////////////////////////////////
 //
-//          QUESTION 1
+//  QUESTION 1
 //
 //
+// Q1: Figure 1 below shows an example of a typical position peak signal (blue) from which we derive the
+// peak position for a single point. Figure 2 shows a commonly occurring problem with the current
+// generation scanner, where the position peak signal has two peaks instead of the expected singular peak
+// characteristic of a gaussian distribution. How would you find the index, from 0 to 2047, along the pixel
+// array (black rectangles), where the peak is to a resolution greater than a single pixel position? i.e. peak is
+// at pixel 1024.213. If possible, include handling for the abnormal peak signal.
+
+// Write a function in C++ to accomplish the task above. You may assume that the input argument is the
+// peak signal data, stored in a std::vector<int>. The return should the peak position as a double.
 ////////////////////////////////////////////////////////////////////////
 
 /**
@@ -150,11 +149,11 @@ int main() {
     std::vector<int> signal = {10, 20, 50, 1024, 50, 20, 10}; //Expect 3 as the indexes
     std::vector<int> signal2 = {10, 20, 1024, 30, 10, 500, 20, 10}; //Expect 2 and 5 as the indexes
     std::vector<int> signal3 = {10, 1024, 30, 10, 500, 20, 800, 10}; //Expect 1, 6 and 4 as the indexes
-    std::vector<int> signal4 = {};
+    std::vector<int> signal4 = {}; //Expect -1, no peaks
     std::vector<int> signal5 = {1024, 30, 10, 500, 20, 800, 10}; //Expect 0, 6 and 4 as the indexes
     std::vector<int> signal6 = {30, 30, 30}; //Expect -1, no peaks
 
-    double encodedPeaks = findPeakPosition(signal6);
+    double encodedPeaks = findPeakPosition(signal3);
     std::cout << "Encoded Peak Data: " << encodedPeaks << std::endl;
 
     if(encodedPeaks == -1){
@@ -187,6 +186,11 @@ int main() {
 
 /* In sending function, I would use CRC64 (Detect errors ) or BCH code (Detect errors but can correct up to certain errors). CRC codes are easier and more common but would use BCH in this case
 
+In receiving function, I would check for an error
+    If there is an error, check and see if it is correctable
+        if correctable, correct
+        if not correctable, request a resend of data
+
 
 // Sender side
 function sendPacket(data):
@@ -202,6 +206,7 @@ function receivePacket(packet):
     else:
         if errorIsCorrectable :
             correctErrors(decodedData)
+            sendAcknowledgment()
         else :
             requestResend()
 
