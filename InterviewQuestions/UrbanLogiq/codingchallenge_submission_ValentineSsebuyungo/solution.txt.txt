@@ -1,0 +1,258 @@
+San Francisco
+South San Francisco
+San Mateo
+San Leandro
+San Ramon
+Pleasanton
+Brentwood
+Tracy
+Stockton
+Davis
+Roseville
+Folsom
+Yuba City
+Chico
+Napa
+Vallejo
+San Jose
+Campbell
+Merced
+Clovis
+Simi Valley
+Glendale
+Rosemead
+El Monte
+Arcadia
+West Covina
+Whittier
+La Mirada
+Bell Gardens
+Montebello
+Carson
+Redondo Beach
+Rancho Palos Verdes
+Long Beach
+Fountain Valley
+Santa Ana
+Orange
+Yorba Linda
+Chino Hills
+Chino
+Ontario
+Rancho Cucamonga
+Fontana
+Colton
+Redlands
+Moreno Valley
+Perris
+Menifee
+Temecula
+Vista
+Poway
+Santee
+Laguna Niguel
+Aliso Viejo
+Irvine
+Newport Beach
+Apple Valley
+Palm Desert
+Calexico
+Lake Havasu City
+Bullhead City
+Prescott Valley
+Surprise
+Mesa
+Gilbert
+Chandler
+Oro Valley
+Tucson
+Las Cruces
+El Paso
+Roswell
+Midland
+Abilene
+Fort Worth
+Bedford
+Frisco
+Allen
+Rowlett
+Longview
+Beaumont
+Friendswood
+Pearland
+Houston
+Round Rock
+Corpus Christi
+Edinburg
+Norman
+Oklahoma City
+Edmond
+Enid
+Topeka
+Kansas City
+St. Joseph
+Des Moines
+Ames
+Cedar Falls
+Burnsville
+Eagan
+Maplewood
+Coon Rapids
+Maple Grove
+Plymouth
+Minnetonka
+Shakopee
+Duluth
+Wausau
+Milwaukee
+Wheeling
+Schaumburg
+Hanover Park
+Carpentersville
+Calumet City
+South Bend
+Noblesville
+Lawrence
+Cincinnati
+Kettering
+Dayton
+Huber Heights
+Toledo
+Ann Arbor
+Livonia
+Lincoln Park
+Royal Oak
+Warren
+Troy
+East Lansing
+Cleveland
+Akron
+Youngstown
+Erie
+Buffalo
+Altoona
+Hagerstown
+Frederick
+Gaithersburg
+Washington
+Bowie
+Annapolis
+Camden
+Allentown
+New Brunswick
+Perth Amboy
+Union City
+East Orange
+New York
+Yonkers
+New Rochelle
+White Plains
+Norwalk
+Danbury
+Shelton
+Waterbury
+Springfield
+Worcester
+Fitchburg
+Nashua
+Haverhill
+Peabody
+Malden
+Cambridge
+Newton
+Waltham
+Woburn
+Woonsocket
+Providence
+New Bedford
+Hempstead
+Atlantic City
+Scranton
+Schenectady
+Charlottesville
+Lynchburg
+Roanoke
+Chapel Hill
+Raleigh
+Greenville
+Wilmington
+Mount Pleasant
+Goose Creek
+Hilton Head Island
+Columbia
+Spartanburg
+Macon
+Columbus
+Auburn
+Montgomery
+Dothan
+Valdosta
+Jacksonville
+Sanford
+Orlando
+Titusville
+Pinellas Park
+Fort Myers
+Bonita Springs
+Weston
+Miramar
+Hialeah
+North Miami Beach
+Coral Gables
+Homestead
+Delray Beach
+Wellington
+Mobile
+Gulfport
+Hattiesburg
+Southaven
+Germantown
+Collierville
+North Little Rock
+Little Rock
+Cape Girardeau
+Florissant
+St. Peters
+Jefferson City
+Columbia
+Springfield
+Decatur
+Bloomington
+Franklin
+Smyrna
+Murfreesboro
+Madison
+Norfolk
+Grand Island
+Rapid City
+Casper
+Fort Collins
+Loveland
+Commerce City
+Denver
+Aurora
+Castle Rock
+Draper
+Riverton
+Logan
+Idaho Falls
+Bozeman
+Missoula
+Coeur d'Alene
+Spokane Valley
+Yakima
+Auburn
+Bellevue
+Kirkland
+Redmond
+Everett
+Marysville
+Keizer
+Eugene
+Bend
+Medford
+Reno
+Nampa
+St. George
+San Francisco
+30950.69137

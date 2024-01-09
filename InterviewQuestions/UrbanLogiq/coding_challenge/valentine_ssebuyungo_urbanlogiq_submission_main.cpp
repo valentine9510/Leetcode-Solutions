@@ -1,23 +1,10 @@
 /**
- * @file valentine_ssebuyungo_main.cpp
- * @author your name (you@domain.com)
+ * @file valentine_ssebuyungo_urbanlogiq_submission_main.cpp
+ * @author Valentine Ssebuyungo
  * @brief 
- * @version 0.1
- * @date 2023-12-28
- * 
- * @copyright Copyright (c) 2023
- * 
- */
-
-/**
- * @brief Plan
- * 
- * US presidential campaign
+ * Find optimal route for US presidential campaign
  * - optimise for distance
  * - Round trip
- * 
- * Issues to test for
- *  Repeated city
  * 
  * Edge cases
  *  Empty cities list
@@ -26,8 +13,13 @@
  *  Single City in List
  *  Very far cities
  *  Invalid coordinates
+ * 
+ * @version 0.1
+ * @date 2023-12-28
+ * 
+ * @copyright Copyright (c) 2023
+ * 
  */
-
 
 #include <iostream>
 #include <fstream>
@@ -37,11 +29,12 @@
 #include <sstream>
 #include <iomanip>
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
 /**
- * @brief Struct to contain the data for a city
+ * @brief Struct to contain the data for a city. Supports the ==, <, > operators
  * 
  */
 struct City {
@@ -54,10 +47,36 @@ struct City {
     bool operator==(const City& other) const {
         return name == other.name && state == other.state && latitude == other.latitude && longitude == other.longitude;
     }
+
+    //this will help with sorting
+    bool operator<(const City& other) const {
+        return name < other.name;
+    }
+
+    //this will help with sorting
+    bool operator>(const City& other) const {
+        return name > other.name;
+    }
 };
 
 /**
- * @brief This function parses a csv file in the format shown below into a vector of a city struct
+ * @brief Remove duplicates from a vector of cities
+ * 
+ * @param cities 
+ */
+void removeDuplicates(std::vector<City>& cities) {
+    // Sort cities based on the '<' operator, which compares names
+    std::sort(cities.begin(), cities.end());
+
+    // std::unique will move duplicates to the end and return a new end iterator
+    auto newEnd = std::unique(cities.begin(), cities.end());
+
+    // Erase the duplicates
+    cities.erase(newEnd, cities.end());
+}
+
+/**
+ * @brief This function parses a csv file in the format shown below into a vector containing structs of the Cities
  * 
  * City,State,Latitude,Longitude
  * San Francisco,California,37.7749295,-122.4194155
@@ -115,14 +134,10 @@ double toRadians(double degree) {
 }
 
 /**
- * @brief Calculates the distance in Kilometres between 2 cities
- * 
- * Original formula 
- * 
- * 
- * Haversine formula:	a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
- * c = 2 ⋅ atan2( √a, √(1−a) )
- * d = R ⋅ c
+ * @brief Calculates the distance in Kilometres between 2 cities. Uses 
+ *          the Haversine formula:	a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+ *          c = 2 ⋅ atan2( √a, √(1−a) ) 
+ *          d = R ⋅ c  
  * 
  * @param city1 
  * @param city2 
@@ -153,79 +168,27 @@ double calculateDistance(const City& city1, const City& city2) {
 
 
 /**
- * @brief This functions finds the optimal route
+ * @brief This functions finds the optimal route using the nearest neighbor algorithm
+ * @note Time Complexity O(n^2),  Space Complexity O(n)
  * 
- * Options
- *  1. Checking every possible combination
- *  2. Nearest city
- * 
- * @note Time Complexity O(n^2)
- * 
- * @param cities 
+ * @param cities Vector of cities to visit
  * @param startingCity 
  * @return vector<City> 
  */
-vector<City> optimizeRoute(const vector<City>& cities, City startingCity){
-    vector<City> optimizedRoute;
-    vector<bool> visitedCities(cities.size(), false);
-    int totalCities = cities.size();
-    
-    // Find the index of the starting city
-    int currentCityIndex = -1;
-    for (int i = 0; i < totalCities; ++i) {
-        if (cities.at(i) == startingCity) {
-            currentCityIndex = i;
-            break;
-        }
+vector<City> optimizedRouteFinder(const vector<City>& cities, City startingCity){
+    vector<City> optimizedRoute; //solution vector
+    vector<bool> visitedCities(cities.size(), false); //boolean vector to track visited cities
+
+    //Check for empty cities list
+    if (cities.empty()) {
+        cerr << "Empty City list" << endl;
+        return {};
     }
-
-    //Ensure starting city is found
-    if (currentCityIndex == -1) {
-        cerr << "Starting city not found in the list." << endl;
-        return optimizedRoute;
-    }
-
-    optimizedRoute.push_back(cities.at(currentCityIndex));
-    visitedCities.at(currentCityIndex) = true;
-
-
-    for (int i = 1; i < totalCities; ++i) {
-        double nearestDistance = numeric_limits<double>::max();
-        int nearestCityIndex = -1;
-
-        for (int j = 0; j < totalCities; ++j) {
-            if (visitedCities.at(j) == false) {
-                double distance = calculateDistance(cities.at(currentCityIndex), cities.at(j));
-                if (distance < nearestDistance) {
-                    nearestDistance = distance;
-                    nearestCityIndex = j;
-                }
-            }
-        }
-
-        if (nearestCityIndex != -1) {
-            currentCityIndex = nearestCityIndex;
-            optimizedRoute.push_back(cities.at(nearestCityIndex));
-            visitedCities.at(nearestCityIndex) = true;
-        }
-    }
-
-    //only return to start city if we have more than 1 city
-    if(optimizedRoute.size() > 1){
-        optimizedRoute.push_back(startingCity); 
-    }
-
-    return optimizedRoute;
-}
-
-vector<City> optimizedRoute2(const vector<City>& cities, City startingCity){
-    vector<City> optimizedRoute;
-    vector<bool> visitedCities(cities.size(), false);
     
     // Find the index of the starting city
     int currentCityIndex = -1;
     for (int i = 0; i < cities.size(); ++i) {
-        if (cities.at(i).name == startingCity.name && cities.at(i).state == startingCity.state) {
+        if (cities.at(i) == startingCity) {
             currentCityIndex = i;
             break;
         }
@@ -272,7 +235,7 @@ vector<City> optimizedRoute2(const vector<City>& cities, City startingCity){
 
 int main() {
     string startingCityName = "San Francisco";
-    string csvFileName = "cities_test.csv";
+    string csvFileName = "cities_all.csv";
     vector<City> cities = parseCSV(csvFileName);
 
     City startingCity;
@@ -282,7 +245,10 @@ int main() {
         }
     }
 
-    vector<City> optimizedRoute = optimizedRoute2(cities, startingCity);
+    //Remove duplicate cities
+    removeDuplicates(cities);
+
+    vector<City> optimizedRoute = optimizedRouteFinder(cities, startingCity); //Find optimized route
 
     double totalDistance = 0;
     for (size_t i = 0; i < optimizedRoute.size() - 1; ++i) {

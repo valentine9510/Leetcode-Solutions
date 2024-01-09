@@ -46,7 +46,7 @@ Noblesville
 Malden
 Delray Beach
 San Francisco
-11,334
+11334
 
 Challenge Notes
 ---------------

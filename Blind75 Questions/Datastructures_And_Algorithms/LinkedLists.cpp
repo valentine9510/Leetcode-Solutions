@@ -43,6 +43,8 @@ ListNode * reverse_linked_list(ListNode *head);
 void remove_all_nodes_matching_value(ListNode ** head, int value);
 //Insert Node into nth position
 void insert_Linked_List_Into_Position_N(ListNode** head, int value, int position);
+//Remove Node at nth position
+void remove_linked_list_value_at_Position_N(ListNode** head, int position);
 //print linked list
 void print_linked_list(ListNode* head);
 
@@ -217,5 +219,34 @@ void insert_Linked_List_Into_Position_N(ListNode** head, int value, int position
     //if we reach here next is null so we can just add it to the end of the list
     ListNode* temp = new ListNode(value);
     curr->next = temp;
+
+}
+
+void remove_linked_list_value_at_Position_N(ListNode** head, int position){
+    if(head == NULL) return;
+    if(position == 1){
+        //we are modifying the head
+        ListNode *temp = *head;
+        *head = (*head)->next; //update head
+
+        delete temp; //free node from stack
+    }
+
+    ListNode *current = (*head);
+
+    for(int i = 0; i < position-2; i++){
+        if(current == NULL) return; //return because that position does not exist in this linked list
+        
+        current = current->next; // we want to stop right before the node we have to remove
+    }
+
+    //now we have to remove the next value
+    ListNode *toRemove = current->next;
+
+    current->next = toRemove->next; //match the gap
+
+    delete toRemove;
+
+    return;
 
 }

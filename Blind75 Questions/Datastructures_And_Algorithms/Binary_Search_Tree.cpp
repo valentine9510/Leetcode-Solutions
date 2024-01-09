@@ -106,24 +106,14 @@ int main (){
  */
 BST_Node *insert_BST(BST_Node* root, int value){
     if(root == NULL){
-        BST_Node* temp = new BST_Node(value, NULL, NULL);
-        return temp;
+        root = new BST_Node(value, NULL, NULL);
+        return root;
     }
 
     if(value <= root->val){ //insert left
-        if(root->left == NULL){
-            BST_Node* temp = new BST_Node(value, NULL, NULL);
-            root->left = temp;
-        } else {
-            insert_BST(root->left, value);
-        }        
+        root->left = insert_BST(root->left, value);       
     } else { //insert right
-        if(root->right == NULL){
-            BST_Node* temp = new BST_Node(value, NULL, NULL);
-            root->right = temp;
-        } else {
-            insert_BST(root->right, value);
-        } 
+        root->right = insert_BST(root->right, value); 
     }
 
     return root;
