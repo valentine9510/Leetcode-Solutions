@@ -47,6 +47,9 @@ void insert_Linked_List_Into_Position_N(ListNode** head, int value, int position
 void remove_linked_list_value_at_Position_N(ListNode** head, int position);
 //print linked list
 void print_linked_list(ListNode* head);
+//Detect a cycle in a linked list
+bool hasCycle(ListNode *head);
+bool detectLoop(ListNode* list);
 
 int main (){
     ListNode* head = NULL;
@@ -249,4 +252,64 @@ void remove_linked_list_value_at_Position_N(ListNode** head, int position){
 
     return;
 
+}
+
+/**
+ * @brief Plan
+ * Loop through the list and change the value at the node, if the next value is something I set to, then there is a cycle
+ * Have a set that can store nodes, if the value is in the set, there is a cycle
+ * 
+ * @param head 
+ * @return true 
+ * @return false 
+ */
+bool hasCycle(ListNode *head) {
+    set<ListNode *> chest;
+
+    while(head != NULL){
+        if (chest.insert(head).second == false ) return true; //Value node is in the set
+        head=head->next;
+    }
+
+    return false;
+}
+
+bool hasCycle(ListNode *head) {
+    ListNode* slow = head;
+    ListNode*fast = NULL;
+    if(head != NULL){
+        fast = head->next;
+    }
+
+    while (slow!=NULL && fast!=NULL)
+    {
+        if(slow == fast) return true;
+
+        if(fast->next != NULL){ //update fast
+            if(slow == fast->next) return true;
+            fast = fast->next->next;
+        } else {
+            fast= fast->next;
+        }
+
+        slow = slow->next; //update slow
+    }
+    
+    return false; //they both hit null so no cycle
+        
+}
+
+bool detectLoop(ListNode* list)
+{
+    struct ListNode *slow_p = list;
+    struct ListNode *fast_p = list;
+ 
+    while (slow_p && fast_p && fast_p->next) {
+        slow_p = slow_p->next;
+        fast_p = fast_p->next->next;
+        if (slow_p == fast_p) {
+            return 1;
+        }
+    }
+    return 0;
 }

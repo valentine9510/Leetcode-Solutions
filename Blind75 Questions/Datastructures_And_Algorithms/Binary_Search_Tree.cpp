@@ -129,7 +129,6 @@ BST_Node *insert_BST(BST_Node* root, int value){
  */
 bool find_value_in_bst (BST_Node* root, int value){
     if(root == NULL) return false;
-
     if(root->val == value) return true;
 
     if(root->left != NULL && value <= root->left->val) return find_value_in_bst(root->left, value);
@@ -371,16 +370,16 @@ int diameterOfBinaryTree(BST_Node* root) {
  */
 BST_Node* lowestCommonAncestor(BST_Node* root, BST_Node* p, BST_Node* q) {
     int small = min(p->val, q->val);
-        int large = max(p->val, q->val);
-        while (root != nullptr) {
-            if (root->val > large) // p, q belong to the left subtree
-                root = root->left;
-            else if (root->val < small) // p, q belong to the right subtree
-                root = root->right;
-            else // Now, small <= root.val <= large -> This root is the LCA between p and q
-                return root;
-        }
-        return nullptr;
+    int large = max(p->val, q->val);
+    while (root != nullptr) {
+        if (root->val > large) // p, q belong to the left subtree
+            root = root->left;
+        else if (root->val < small) // p, q belong to the right subtree
+            root = root->right;
+        else // Now, small <= root.val <= large -> This root is the LCA between p and q
+            return root;
+    }
+    return nullptr;
 }
 
 
