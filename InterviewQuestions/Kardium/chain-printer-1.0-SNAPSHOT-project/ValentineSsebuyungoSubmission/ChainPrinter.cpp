@@ -18,8 +18,12 @@ void ChainPrinter::dprintln(const std::string& line) {
 }
 
 void ChainPrinter::pprintln(const std::string& line) {
-    // REPLACE THIS WITH YOUR CODE
-    println(line);
+    //• Successive ‘1’s are spaced 2 mm apart -> Special handle for this scenario
+    // • Successive ‘0’s are spaced 3 mm apart -> This is the same as before
+    // • ‘0’s are spaced 3 mm from ‘1’s -> This is the same as before
+    // • Unsupported characters are left blank -> This is the same as before
+
+    this->chainPrinterUniversalPrint(line,false,true); //handle special line
 }
 
 void ChainPrinter::chainPrintStep(int numberOfSteps){
@@ -33,7 +37,7 @@ void ChainPrinter::chainPrintStep(int numberOfSteps){
 
 }
 
-void ChainPrinter::chainPrinterUniversalPrint(const std::string& line, bool unknownCharacterHandle) {
+void ChainPrinter::chainPrinterUniversalPrint(const std::string& line, bool unknownCharacterHandle, bool handlePadding) {
     string printedString = "********";
     std::string lineToPrint = line.substr(0,8); //get first 8 characters of line
     printedString.resize(lineToPrint.size());
@@ -72,18 +76,30 @@ void ChainPrinter::chainPrinterUniversalPrint(const std::string& line, bool unkn
                 // int solenoidIndex = (distanceFromOrigin/this->distanceBtnSolenoids)%(this->numOfSolenoids);
                 char hammerCharacter = (i%2 == 0)? evenIndexHammer : oddIndexHammer;
 
-                //solenoid index is same as letter index
-                if(printedCharacterChecker[solenoidIndex] == false ){
+                //solenoid index is same as letter index and we haven handled that index yet
+                if(printedCharacterChecker.at(solenoidIndex) == false ){
                     bool updateSystem = false;
                     if(lineToPrint.at(solenoidIndex) == hammerCharacter){
+                        updateSystem = true;
+
+                        //if previous character is a '1' and we currently have '1'.
+                        if(handlePadding && ((solenoidIndex - 1) >= 0) && lineToPrint.at(solenoidIndex) == '1' && lineToPrint.at(solenoidIndex-1) == '1' ){
+                            //if inbounds and we have 2 consecutive 1's
+                            //update solenoid index to fire next so as to maintain 2mm spacing
+                            this->chainPrintStep(2*this->distanceBtnHammers - 1); //just stop right 1mm before the hammer center. So we move by 7mm, step 7 times instead of 4 times to fire a similar character
+                        }
                         
                         //strike solenoid
                         if(driver) driver->fire(solenoidIndex);
 
-                        updateSystem = true;
-
                         //update printed string
-                        printedString.at(solenoidIndex) = lineToPrint.at(solenoidIndex);
+                        if((handlePadding && ((solenoidIndex - 1) >= 0) && lineToPrint.at(solenoidIndex) == '1' && lineToPrint.at(solenoidIndex-1) == '1' )) {
+                            //new character
+                            printedString.at(solenoidIndex) = this->consecutiveOnesAlias;  //character to indicate consecutive ones
+                        } else {
+                            printedString.at(solenoidIndex) = lineToPrint.at(solenoidIndex);
+                        }
+
 
                     } else if (lineToPrint.at(solenoidIndex) == ' '){
                         //leave a space
@@ -107,17 +123,16 @@ void ChainPrinter::chainPrinterUniversalPrint(const std::string& line, bool unkn
                             if(driver) driver->fire(solenoidIndex);
 
                             //update printed string
-                            printedString.at(solenoidIndex) = '%';
+                            printedString.at(solenoidIndex) = this->specialCharacterAlias; //use this for special characters
                         } else {
                             //leave a space
-
                             //update printed string
-                            printedString.at(solenoidIndex) = '+';
+                            printedString.at(solenoidIndex) = ' '; //use this for invalid characters
                         }
                     }
 
                     if(updateSystem){ // we had a successful strike
-                        printedCharacterChecker[solenoidIndex] = true;
+                        printedCharacterChecker.at(solenoidIndex) = true;
                         this->chainPrintStep(1);
                     }
                     
@@ -131,5 +146,5 @@ void ChainPrinter::chainPrinterUniversalPrint(const std::string& line, bool unkn
     }
 
     driver->linefeed(); //skip to next line
-    cout << "printedString : " << printedString << endl;
+    std::cout << "printedString : " << printedString << endl;
 }

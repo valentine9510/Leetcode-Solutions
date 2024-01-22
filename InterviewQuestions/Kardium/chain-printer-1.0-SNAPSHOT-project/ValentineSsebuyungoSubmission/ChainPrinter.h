@@ -14,13 +14,12 @@ private:
     static const int numOfSolenoids = 8; //keep number of solenoids
     static const int distanceBtnSolenoids = 3; //3mm between each solenoid
     static const int distanceBtnHammers = 4; //4mm between each hammer
+    static const char specialCharacterAlias = '%'; //Alias for special characters
+    static const char consecutiveOnesAlias = '#'; //Alias for consecutive printed 1's
 
     ChainPrinterDriver* driver;
-
-    std::vector<char> hammerArray = {'0','1','0','1','0','1','0','1'};
     int millimeterDisplacementFromOrigin; //Helps us keep track of where we are in the cycle. circular number, whenever it reaches 8mm, we reset to zero. 
 
-    //methods
     /**
      * @brief Custom method to step
      * 
@@ -33,9 +32,10 @@ private:
      * @brief Handles all printing activities
      * 
      * @param line Line to print
-     * @param unknownCharacterHandle Will you handle unknown characters
+     * @param unknownCharacterHandle Boolean to select unknown character handling
+     * @param handlePadding Boolean to select padding handling
      */
-    void chainPrinterUniversalPrint(const std::string& line, bool unknownCharacterHandle );
+    void chainPrinterUniversalPrint(const std::string& line, bool unknownCharacterHandle = false, bool handlePadding = false );
 public:
     /**
      * Constructor for ChainPrinter.

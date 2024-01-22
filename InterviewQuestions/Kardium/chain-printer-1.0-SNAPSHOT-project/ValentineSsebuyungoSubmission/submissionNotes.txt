@@ -1,0 +1,20 @@
+
+Author : Valentine Ssebuyungo
+
+==========================
+Assumptions 
+==========================
+- The Chain Printer always starts from 0.
+- Only strike if the Solenoid is directly over the top of the character.
+- To keep the distance smaller to 2mm, hit the hammer 1mm before the center.
+- Solenoid Firing is Precise.
+
+
+==========================
+Given more Time
+==========================
+- Error handling for when a firing fails or there are printer issues
+- Detailed Documentation
+- Real world testing
+
+Thank you.

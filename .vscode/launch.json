@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
+      "cwd": "c:/Users/Valentine Ssebuyungo/Documents/GitHub/C-plus-plus-learning/InterviewQuestions/Kardium/chain-printer-1.0-SNAPSHOT-project/ValentineSsebuyungoSubmission",
+      "program": "c:/Users/Valentine Ssebuyungo/Documents/GitHub/C-plus-plus-learning/InterviewQuestions/Kardium/chain-printer-1.0-SNAPSHOT-project/ValentineSsebuyungoSubmission/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

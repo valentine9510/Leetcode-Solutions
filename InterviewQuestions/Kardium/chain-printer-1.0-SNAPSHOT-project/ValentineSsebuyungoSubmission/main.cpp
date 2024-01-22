@@ -1,3 +1,13 @@
+/**
+ * @author Valentine Ssebuyungo
+ * @brief 
+ * @version 0.1
+ * @date 2024-01-22
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include "ChainPrinter.h"
 #include "ChainPrinterDriver.h"
 #include "LoggingChainPrinterDriver.h"
@@ -12,15 +22,17 @@ int main() {
     ChainPrinterDriver* driver = new LoggingChainPrinterDriver();
     ChainPrinter *printer = new ChainPrinter(driver); // ChainPrinter takes ownership of driver
 
-    vector<string> testStrings = {"01234560000004543"};
+    vector<string> testStrings =                {"00000000","01234567","01100101", "        ", "", "11", "11111111111111", "0123456789"};
+    vector<string> expectedPrintStrings =       {"00000000","01      ","01100101", "        ", "", "11", "11111111", "01      "};
+    vector<string> expectedDebugPrintStrings =  {"00000000","01%%%%%%","01100101", "        ", "", "11", "11111111", "01%%%%%%"};
+    vector<string> expectedPadedPrintStrings =  {"00000000","01234567","01100101", "        ", "", "1#", "1#######", "01234567"};
 
     for(auto i = 0; i < testStrings.size(); i++){
         string toPrint = testStrings.at(i);
         cout << "Chain printer to print "<< toPrint << endl;
         cout << "_____ Test " << i << " Start _____" << endl;
         printer->println(toPrint);
-
-        cout << "_____ Test " << i << " Completed _____ \n\n" << endl;
+        cout << "_____ Test " << i << " Normal Print Completed Expected String is " << expectedPrintStrings.at(i)  << "_____ \n\n" << endl;
     }
 
     for(auto i = 0; i < testStrings.size(); i++){
@@ -28,8 +40,15 @@ int main() {
         cout << "Chain printer to debug print "<< toPrint << endl;
         cout << "_____ Test " << i << " Start _____" << endl;
         printer->dprintln(toPrint);
+        cout << "_____ Test " << i << " Debug Print  Completed Expected String is " << expectedDebugPrintStrings.at(i)  << " _____ \n\n" << endl;
+    }
 
-        cout << "_____ Test " << i << " Completed _____ \n\n" << endl;
+    for(auto i = 0; i < testStrings.size(); i++){
+        string toPrint = testStrings.at(i);
+        cout << "Chain printer to do padded print "<< toPrint << endl;
+        cout << "_____ Test " << i << " Start _____" << endl;
+        printer->pprintln(toPrint);
+        cout << "_____ Test " << i << " Padded Print  Completed Expected String is " << expectedPrintStrings.at(i)  << "_____ \n\n" << endl;
     }
     
 
@@ -76,8 +95,9 @@ int main() {
  * Go to the next line
  * 
  * 
- * Assumption :
+ * Assumptions :
  * The Chain Printer always starts from 0
  * Only strike if the Solenoid is directly over the top of the character
+ * To keep 
  * 
  */
