@@ -90,10 +90,52 @@ We repeat steps 3 to 5 for each element in the array.
 After iterating through the entire array, the variable maxSum will contain the maximum subarray sum encountered.
 
 Finally, we return the value of maxSum as the result, representing the maximum sum of a contiguous subarray within the given array nums.
+
+https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d
+
+"local_maximum at index i is the maximum of A[i] and the sum of A[i] and local_maximum at index i-1."
+
+Consider the array [-8, -3, -6, -2, -5, -4].
+
+Initialize: max_current = -8, max_global = -8
+Iteration:
+i = 1: max_current = max(-3, -8 + -3) = -3, max_global = max(-8, -3) = -3
+i = 2: max_current = max(-6, -3 + -6) = -6, max_global = max(-3, -6) = -3
+i = 3: max_current = max(-2, -6 + -2) = -2, max_global = max(-3, -2) = -2
+i = 4: max_current = max(-5, -2 + -5) = -5, max_global = max(-2, -5) = -2
+i = 5: max_current = max(-4, -5 + -4) = -4, max_global = max(-2, -4) = -2
+
+Example
+Consider the array [-2, 1, -3, 4, -1, 2, 1, -5, 4].
+
+Initialize: max_current = -2, max_global = -2
+Iteration:
+i = 1: max_current = max(1, -2 + 1) = 1, max_global = max(-2, 1) = 1
+i = 2: max_current = max(-3, 1 - 3) = -2, max_global = max(1, -2) = 1
+i = 3: max_current = max(4, -2 + 4) = 4, max_global = max(1, 4) = 4
+i = 4: max_current = max(-1, 4 - 1) = 3, max_global = max(4, 3) = 4
+i = 5: max_current = max(2, 3 + 2) = 5, max_global = max(4, 5) = 5
+i = 6: max_current = max(1, 5 + 1) = 6, max_global = max(5, 6) = 6
+i = 7: max_current = max(-5, 6 - 5) = 1, max_global = max(6, 1) = 6
+i = 8: max_current = max(4, 1 + 4) = 5, max_global = max(6, 5) = 6
+Result: The maximum sum of the contiguous subarray is 6.
  * 
  * @param nums 
  * @return int 
  */
+int maxSubArray(vector<int>& A) {
+    int max_local = A[0];
+    int max_global = A[0];
+
+    for (size_t i = 1; i < A.size(); ++i) {
+        max_local = std::max(A[i], max_local + A[i]); //either the higher of the new_value OR the curr_sub_array_sum + new_value
+        if (max_local > max_global) {
+            max_global = max_local;
+        }
+    }
+    return max_global;
+}
+
 int maxSubArray(vector<int>& nums) {
         int maxSum = INT_MIN;
         int currentSum = 0;
@@ -111,7 +153,7 @@ int maxSubArray(vector<int>& nums) {
         }
         
         return maxSum;
-    }
+}
 
 /**
  * @brief Start with the largest subarray
@@ -147,20 +189,15 @@ int maxSubArray(vector<int>& nums) {
 
 unordered_map<int, int> climbStairs_pathways;
 int climbStairs(int n) {
-        if(n <= 2) return n;
+    if(n <= 2) return n;
 
-        //now we have 2 extra ways
-        if(climbStairs_pathways.find(n-1) == climbStairs_pathways.end()){ //not found
-            climbStairs_pathways.insert(make_pair((n-1), climbStairs(n-1)));
-        }
-
-        if(climbStairs_pathways.find(n-2) == climbStairs_pathways.end()){ //not found
-            climbStairs_pathways.insert(make_pair((n-2), climbStairs(n-2)));
-        }
-
-        
-        return climbStairs_pathways.at(n-1) +  climbStairs_pathways.at(n-2); //we can even add a map to avoid redoing things
+    if(climbStairs_pathways.find(n) != climbStairs_pathways.end()){ //if we have already calculated this value, do not calculate again
+        return climbStairs_pathways[n];
     }
+    
+    climbStairs_pathways[n] = climbStairs(n-1) +  climbStairs(n-2); //store value in map to stop redoing things
+    return climbStairs_pathways[n];
+}
 
 int findBSTHeight(TreeNode* root){
     if(root == NULL) return 0;

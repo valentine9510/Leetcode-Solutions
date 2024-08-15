@@ -14,6 +14,46 @@
 // #include <headers.h>
 
 using namespace std;
+class Solution {
+public:
+    int evalRPN(std::vector<std::string>& tokens) {
+        std::stack<int> stack;
+
+        for (const std::string& token : tokens) {
+            if (isNumber(token)) {
+                stack.push(std::stoi(token));
+            } else {
+                int right = stack.top(); stack.pop();
+                int left = stack.top(); stack.pop();
+                int result = 0;
+
+                if (token == "+") {
+                    result = left + right;
+                } else if (token == "-") {
+                    result = left - right;
+                } else if (token == "*") {
+                    result = left * right;
+                } else if (token == "/") {
+                    result = left / right;
+                } else {
+                    throw std::invalid_argument("Invalid operator");
+                }
+
+                stack.push(result);
+            }
+        }
+
+        return stack.top();
+    }
+
+private:
+    bool isNumber(const std::string& token) {
+        if (token.empty()) return false;
+        if (token[0] == '-' && token.size() > 1) return std::all_of(token.begin() + 1, token.end(), ::isdigit);
+        return std::all_of(token.begin(), token.end(), ::isdigit);
+    }
+};
+
 
 class Solution {
 public:
@@ -25,8 +65,8 @@ public:
         stack<int> numbers;
 
         for(string element : tokens){
-            if(isdigit( element.at(0)) ){ //we have a digit
-                numbers.push(element.at(0) - '0'); //push the number
+            if(isdigit( element.at(element.size()-1)) ){ //we have a digit, if the last value of the string is a digit, the first value maybe '+', '-', eg, +6, -6
+                numbers.push(std::stoi(element)); //push the number
             } else {
                 int lhs = numbers.top();
                 numbers.pop();

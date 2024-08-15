@@ -54,7 +54,7 @@ public:
     // Custom comparator for the priority queue
     struct CompareVector {
         bool operator()(const std::vector<int>& a, const std::vector<int>& b) {
-            return sumOfSquares(b) < sumOfSquares(a);
+            return sumOfSquares(b) < sumOfSquares(a); //min heap, we want the smallest values first
         }
     };
 
@@ -75,7 +75,51 @@ public:
 
         return res;
     }
+
+    vector<vector<int>> kClosest2(vector<vector<int>>& points, int k) {
+        sort(points.begin(), points.end(), [](const std::vector<int>& a, const std::vector<int>& b){
+            return sumOfSquares(b) > sumOfSquares(a); //min heap, we want the smallest values first
+        });
+
+        vector<vector<int>> res;
+        int i = 0;
+        while(i < k){
+            res.push_back(points[i]);
+            i++;
+        }
+
+        return res;
+    }
 };
+
+struct CompareFunction
+{
+    bool operator()(vector<int>&a, vector<int>&b){
+        int squareA = 0;
+        std::accumulate(a.begin(), a.end(), squareA, [](int &x){ return x*x; });
+
+        int squareB = 0;
+        std::accumulate(b.begin(), b.end(), squareB, [](int &x){ return x*x; });
+
+        return squareB > squareA; //Biggest values first, return true if second value is larger
+    }
+};
+
+vector<vector<int>> kClosestPersonal(vector<vector<int>>& points, int k){ //K Closes personal
+    priority_queue<vector<int>, vector<vector<int>>, CompareFunction > my_heap;
+    vector<vector<int>> results;
+
+    for(auto point : points){
+        my_heap.push(point);
+    }
+
+    for(int i = 0; i < k; i++){
+        results.push_back(my_heap.top());
+        my_heap.pop();
+    }
+
+    return results;
+}
 
 
 int main(){

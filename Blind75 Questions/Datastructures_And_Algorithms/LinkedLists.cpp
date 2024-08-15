@@ -51,46 +51,46 @@ void print_linked_list(ListNode* head);
 bool hasCycle(ListNode *head);
 bool detectLoop(ListNode* list);
 
-int main (){
-    ListNode* head = NULL;
+// int main (){
+//     ListNode* head = NULL;
 
-    head = insert_Into_Linked_List(head, 3);
-    head = insert_Into_Linked_List(head, 1);
-    head = insert_Into_Linked_List(head, 2);
-    head = insert_Into_Linked_List(head, 3);
-    head = insert_Into_Linked_List(head, 3);
-    head = insert_Into_Linked_List(head, 4);
-    head = insert_Into_Linked_List(head, 3);
+//     head = insert_Into_Linked_List(head, 3);
+//     head = insert_Into_Linked_List(head, 1);
+//     head = insert_Into_Linked_List(head, 2);
+//     head = insert_Into_Linked_List(head, 3);
+//     head = insert_Into_Linked_List(head, 3);
+//     head = insert_Into_Linked_List(head, 4);
+//     head = insert_Into_Linked_List(head, 3);
 
-    cout << "Linked List In Order " << endl;
-    print_linked_list(head);
+//     cout << "Linked List In Order " << endl;
+//     print_linked_list(head);
 
-    cout << endl << "Reverse Linked List Single Pointer" << endl;
-    head = reverse_linked_list(head);
-    print_linked_list(head);
+//     cout << endl << "Reverse Linked List Single Pointer" << endl;
+//     head = reverse_linked_list(head);
+//     print_linked_list(head);
 
-    cout << endl << "Reverse Linked List Double Pointer" << endl;
-    reverse_linked_list(&head);
-    print_linked_list(head);
+//     cout << endl << "Reverse Linked List Double Pointer" << endl;
+//     reverse_linked_list(&head);
+//     print_linked_list(head);
 
-    cout << endl << "Remove all nodes that have the value of 3" << endl;
-    remove_all_nodes_matching_value(&head, 3);
-    print_linked_list(head);
+//     cout << endl << "Remove all nodes that have the value of 3" << endl;
+//     remove_all_nodes_matching_value(&head, 3);
+//     print_linked_list(head);
 
-    cout << endl << "Insert 3 into position 1" << endl;
-    insert_Linked_List_Into_Position_N(&head, 3, 1);
-    print_linked_list(head);
+//     cout << endl << "Insert 3 into position 1" << endl;
+//     insert_Linked_List_Into_Position_N(&head, 3, 1);
+//     print_linked_list(head);
 
-    cout << endl << "Insert 15 into position 2" << endl;
-    insert_Linked_List_Into_Position_N(&head, 15, 2);
-    print_linked_list(head);
+//     cout << endl << "Insert 15 into position 2" << endl;
+//     insert_Linked_List_Into_Position_N(&head, 15, 2);
+//     print_linked_list(head);
 
-    cout << endl << "Insert 185 into position 10" << endl;
-    insert_Linked_List_Into_Position_N(&head, 185, 10);
-    print_linked_list(head);
+//     cout << endl << "Insert 185 into position 10" << endl;
+//     insert_Linked_List_Into_Position_N(&head, 185, 10);
+//     print_linked_list(head);
 
-    return 0;
-}
+//     return 0;
+// }
 
 ListNode* insert_Into_Linked_List(ListNode* head, int value){
     ListNode* newNode = new ListNode; //store on heap
@@ -263,7 +263,7 @@ void remove_linked_list_value_at_Position_N(ListNode** head, int position){
  * @return true 
  * @return false 
  */
-bool hasCycle(ListNode *head) {
+bool hasCycle2(ListNode *head) {
     set<ListNode *> chest;
 
     while(head != NULL){
@@ -312,4 +312,17 @@ bool detectLoop(ListNode* list)
         }
     }
     return 0;
+}
+
+ListNode* middleNode(ListNode* head) {
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while (fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    return slow; 
 }

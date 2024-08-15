@@ -68,34 +68,34 @@ int longestPathToLeaf(BST_Node* root);
 int diameterOfBinaryTree(BST_Node* root);
 
 
-int main (){
-    cout << "testing" << endl;
-    BST_Node* temp = insert_BST(NULL, 5);
-    temp = insert_BST(temp, 3);
-    insert_BST(temp, 7);
-    insert_BST(temp, 2);
-    insert_BST(temp, 4);
-    insert_BST(temp, 6);
-    insert_BST(temp, 8);
+// int main (){
+//     cout << "testing" << endl;
+//     BST_Node* temp = insert_BST(NULL, 5);
+//     temp = insert_BST(temp, 3);
+//     insert_BST(temp, 7);
+//     insert_BST(temp, 2);
+//     insert_BST(temp, 4);
+//     insert_BST(temp, 6);
+//     insert_BST(temp, 8);
 
-    std::cout << "Is the tree a BST? " << (is_binary_search_tree(temp) ? "Yes" : "No") << std::endl;
+//     std::cout << "Is the tree a BST? " << (is_binary_search_tree(temp) ? "Yes" : "No") << std::endl;
 
-    bst_bfs_print(temp);
+//     bst_bfs_print(temp);
 
-    cout << endl << "Deleting 6" << endl;
-    temp = delete_node_in_bst(temp, 6);
-    bst_bfs_print(temp);
+//     cout << endl << "Deleting 6" << endl;
+//     temp = delete_node_in_bst(temp, 6);
+//     bst_bfs_print(temp);
 
-    cout << endl << "Deleting 3" << endl;
-    temp = delete_node_in_bst(temp, 3);
-    bst_bfs_print(temp);
+//     cout << endl << "Deleting 3" << endl;
+//     temp = delete_node_in_bst(temp, 3);
+//     bst_bfs_print(temp);
 
-    cout << endl << "Deleting 7" << endl;
-    temp = delete_node_in_bst(temp, 7);
-    bst_bfs_print(temp);
+//     cout << endl << "Deleting 7" << endl;
+//     temp = delete_node_in_bst(temp, 7);
+//     bst_bfs_print(temp);
 
-    return 0;
-}
+//     return 0;
+// }
 
 /**
  * @brief Insert Values into a BST
@@ -303,13 +303,13 @@ int findBSTHeight(BST_Node* root){
     if(root == NULL) return 0;
 
     int leftHeight = findBSTHeight(root->left);
-    int righttHeight = findBSTHeight(root->right);
+    int rightHeight = findBSTHeight(root->right);
 
-    if(leftHeight == -1 || righttHeight == -1 || (abs(leftHeight - righttHeight)>1)){
+    if(leftHeight == -1 || rightHeight == -1 || (abs(leftHeight - rightHeight)>1)){
         return -1; //unequal
     }
 
-    return 1 + max(leftHeight, righttHeight);
+    return 1 + max(leftHeight, rightHeight);
 }
 
 /**
@@ -330,11 +330,17 @@ bool isBalanced(BST_Node* root) {
  * @brief Return longest path to a leaf node
  * 
  */
-int longestPathToLeaf(BST_Node* root){
-    if(root==NULL) return 0;
-    if(root->left == NULL && (root->right == NULL)) return 1;
+int longestPathToLeaf(BST_Node* root, int& diameter){
+    if (root == NULL) return 0;
 
-    return 1 + max(longestPathToLeaf(root->left), longestPathToLeaf(root->right));
+    int leftHeight = longestPathToLeaf(root->left, diameter);
+    int rightHeight = longestPathToLeaf(root->right, diameter);
+
+    int localDiameter = leftHeight + rightHeight;
+
+    diameter = max(diameter, localDiameter);
+    
+    return 1 + max(leftHeight, rightHeight);
 }
 
 /**
@@ -345,18 +351,9 @@ int longestPathToLeaf(BST_Node* root){
  * 
  */
 int diameterOfBinaryTree(BST_Node* root) {
-    if(root == NULL) return 0;
-    if(root->left == NULL && (root->right == NULL)) return 0;
-
-    //find diameter of this node
-    int diameter = longestPathToLeaf(root->right) + longestPathToLeaf(root->left);
-    int leftTreeDiameter = diameterOfBinaryTree(root->left);
-    int rightTreeDiameter = diameterOfBinaryTree(root->right);
-
-    int maxDiameter = max(diameter, leftTreeDiameter);
-    maxDiameter = max(maxDiameter, rightTreeDiameter);
-
-    return maxDiameter;
+    int diameter = 0;
+    longestPathToLeaf(root, diameter);
+    return diameter;
 
 }
 

@@ -108,7 +108,6 @@ int minimumIsland(vector<vector<char>>& grid);
  * 
  */
 bool hasPath(std::unordered_map<std::string, std::vector<std::string>> graph, std::string src, std::string dst) {
-  // todo
   if(src == dst) return true; //we found it
   
   //Use DFS, can we go to the node
@@ -122,6 +121,26 @@ bool hasPath(std::unordered_map<std::string, std::vector<std::string>> graph, st
   return false; //after DFS none has reached the desired note
 }
 
+bool hasPath_queue(std::unordered_map<std::string, std::vector<std::string>> graph, std::string src, std::string dst){
+  queue<string> queueStore;
+
+  queueStore.push(src);
+
+  while (queueStore.empty() != false)
+  {
+    string curr_node = queueStore.front();
+    queueStore.pop();
+
+    if(curr_node == dst) return true;
+
+    auto neighbors = graph.at(curr_node);
+    for(auto i : neighbors){
+      queueStore.push(i);
+    }
+  }
+
+  return false;  
+}
 ///////////////////////////////////////////////////////
 ////////////////////// SOLUTION 2 //////////////////////
 ///////////////////////////////////////////////////////
@@ -244,15 +263,46 @@ int largestComponent(std::unordered_map<int, std::vector<int>> graph){
   return largestComponent;
 }
 
+bool explore2(unordered_map<int, vector<int>> &graph, unordered_set<int> &visited_nodes, int node){
+  if(visited_nodes.count(node) == 1) return false;
+
+  //insert node
+  visited_nodes.insert(node);
+
+  //visit all neighbors DFS
+  for(int i = 0; i < graph.at(node).size(); i++){
+    explore2(graph, visited_nodes, graph.at(node).at(i));
+  }
+
+  return true;
+}
+
+int largestComponent2(unordered_map<int, vector<int>> graph){
+  unordered_set<int> visited_nodes;
+  int largestComponent = 0;
+
+  //scroll through everynode
+  for(auto graph_iterator = graph.begin(); graph_iterator != graph.end(); graph_iterator++){
+    int set_size_before = visited_nodes.size();
+    //explore
+    explore2(graph, visited_nodes,graph_iterator->first);
+
+    int set_size_after = visited_nodes.size();
+
+    largestComponent = std::max(largestComponent,(set_size_after - set_size_before));
+  }
+
+  return largestComponent;
+}
 ///////////////////////////////////////////////////////
 ////////////////////// SOLUTION 5 /////////////////////
 ///////////////////////////////////////////////////////
-int has_path_step_counter( std::unordered_map<std::string, std::vector<std::string>> graph, std::string nodeA, std::string nodeB, std::set<std::string> visitSet = {}, int currentSteps = 0 ){
+int has_path_step_counter( std::unordered_map<std::string, std::vector<std::string>> graph, std::string node_source, std::string node_destination, std::set<std::string> visitSet = {}, int currentSteps = 0 ){
   //base cases
-  if(nodeA == nodeB) return currentSteps;
+  if(node_source == node_destination) return currentSteps;
 
-  //if nodeA in set, we have a cycle
-  auto insertResult = visitSet.insert(nodeA);
+  //if node_source in set, we have a cycle
+  auto insertResult = visitSet.insert(node_source);
 
   if(insertResult.second == false) return -1; //cycle
 
@@ -261,8 +311,8 @@ int has_path_step_counter( std::unordered_map<std::string, std::vector<std::stri
   int minDistance = INT_MAX;
 
   //traverse
-  for(int i = 0; i < graph.at(nodeA).size(); i++){
-    int distance = has_path_step_counter(graph, graph.at(nodeA).at(i), nodeB, visitSet, currentSteps);
+  for(int i = 0; i < graph.at(node_source).size(); i++){
+    int distance = has_path_step_counter(graph, graph.at(node_source).at(i), node_destination, visitSet, currentSteps);
     if(distance != -1){
       minDistance = std::min(minDistance, distance);
     }
@@ -413,8 +463,7 @@ int minimumIsland(vector<vector<char>>& grid){
 
         for(auto j = 0; j < gridWidth; j++){
 
-            if(grid.at(i).at(j) == 'L' && boolGrid.at(i).at(j) == false) {
-                
+            if(grid.at(i).at(j) == 'L' && boolGrid.at(i).at(j) == false) { //if land and we haven't visited it yet                
                 minIsland = std::min(minIsandsHelper(i,j,grid,boolGrid), minIsland );
             }
         }

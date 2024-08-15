@@ -81,6 +81,27 @@ bool wordSearch(vector<vector<char>>& board, string word);
  *  return an array of the non-overlapping intervals that cover all the intervals in the input.
  * 
  */
+
+// 1 : Old_end < new_start : new_interval = old interval
+// 2 : new_end < old_start : new_interval, if we have inserted the new_interval, insert the old, otherwise insert the new
+
+//situations
+    //Before, After
+    //subset
+    //superset
+    //Overlapping (new_start < old_Start)
+    //Overlapping (new_Start > old_start)
+
+//Merging times
+// insert_interval_start = min (curr_start, new_start)
+// insert_interval_end = min(curr_end, new_end)
+
+// if insert_interval_end > new_start
+    //insert_interval_end = max(curr_end, new_end)
+    //inserted --> true
+
+
+
 vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals);
 vector<vector<int>> mergeIntervals2(vector<vector<int>>& intervals); //Online solution
 

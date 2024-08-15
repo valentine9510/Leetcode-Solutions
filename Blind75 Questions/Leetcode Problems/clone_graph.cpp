@@ -37,7 +37,7 @@ public:
 
 class Solution {
 public:
-    unordered_map<Node*, Node*> mapStorage; // Store old node as key and new node as value
+    unordered_map<Node*, Node*> mapStorage; // Store old node as key and new node as value, helps in avoiding cycles
 
     Node* cloneGraph(Node* node) {
         if (node == NULL) return node;
@@ -48,17 +48,17 @@ public:
         }
 
         // Create a new node with the value of the original node
-        Node* temp = new Node(node->val);
+        Node* clone = new Node(node->val);
 
         // Store the new node in the  before 
-        mapStorage[node] = temp;
+        mapStorage[node] = clone;
 
         // Clone all the neighbors
         for (Node* neighbor : node->neighbors) {
-            temp->neighbors.push_back(cloneGraph(neighbor));
+            clone->neighbors.push_back(cloneGraph(neighbor));
         }
 
-        return temp;
+        return clone;
     }
 };
 

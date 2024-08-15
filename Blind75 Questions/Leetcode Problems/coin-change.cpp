@@ -46,10 +46,10 @@ public:
 
         if(minimum == INT_MAX) storage[amount] = -1; //we didnt find a way
         else {
-            storage[amount] = minimum+1;
+            storage[amount] = minimum+1;//return paths plus this one
         }
 
-        return storage[amount]; //return paths plus this one
+        return storage[amount]; 
         
     }
 };
@@ -58,4 +58,32 @@ public:
 int main(){
     
     return 0;
+}
+
+/**
+ * @brief
+ * Use dfs
+ * 
+ * Keep count of how many coins we have used. 
+ * Keep track of the smallest number, or set it to -1
+ *          when amount is zero, update the number
+ *  
+ */
+unordered_map<int, int> store;
+int coinChange(vector<int>& coins, int amount) {
+    if(amount < 0) return -1;
+    if(amount == 0) return 0;
+    if(store.find(amount) != store.end()) store[amount];
+
+    int minCoins = INT_MAX;
+
+    for(int i = 0; i < coins.size(); i++){
+        int res = coinChange(coins, amount-coins[i]);
+
+        if(res != -1) minCoins = std::min(minCoins, res);
+    }
+
+    store[amount] = (minCoins == INT_MAX) ? -1 : minCoins; //add our current coin as well
+
+    return store[amount];
 }

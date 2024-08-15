@@ -1488,10 +1488,6 @@ bool isPalindrome(string &s){
         index2++;
     }
 
-    // for(int i = 0; i < s.size()/2; i++){
-    //     if(s.at(i) != s.at(s.size() - 1 - i)) return false;
-    // }
-
     return true;
 }
 
@@ -1527,6 +1523,26 @@ int search(vector<int>& nums, int target) {
     return retVal;
 }
 
+void floodFillHelp(vector<vector<int>>& image, int sr, int sc, int color, int curr_color) {
+    if(sr >= image.size() || sr < 0 || sc >= image.at(0).size() || sc < 0) return;
+    if(image[sr][sc] != curr_color) return;
+    if(image[sr][sc] == color) return;
+
+    image[sr][sc] = color;
+
+    floodFillHelp(image, sr-1, sc, color, curr_color);
+    floodFillHelp(image, sr, sc-1, color, curr_color);
+    floodFillHelp(image, sr+1, sc, color, curr_color);
+    floodFillHelp(image, sr, sc+1, color, curr_color);
+
+    return;
+}
+
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        if(image.size() == 0) return image;
+        floodFillHelp(image, sr, sc, color, image[sr][sc]);
+        return image;
+}
 /**
  * @brief Palindrome has a pair of every letter
  * Traverse through the list as I place the values into a hashmap

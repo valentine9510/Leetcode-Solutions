@@ -61,6 +61,37 @@ public:
 
         return soln;     
     }
+
+    vector<vector<int>> levelOrder2(TreeNode* root) {
+        vector<vector<int>> soln;
+
+        if(root == NULL) return soln;
+
+        queue<pair<TreeNode*, int>> level_queue;
+        level_queue.push({root,0});
+
+        while (level_queue.empty() == false)
+        {
+            TreeNode * curr_node = level_queue.front().first;
+            int curr_level = level_queue.front().second;
+
+            //remove element from queue
+            level_queue.pop();
+
+            //Add nodes to solution
+            if(soln.size() < (curr_level+1)){
+                soln.push_back({curr_node->val}); //Add new node if the solution has not seen this level before
+            } else {
+                soln.at(curr_level).push_back(curr_node->val);
+            }
+
+            //Add children to queue
+            if(curr_node->left != NULL) level_queue.push({curr_node->left, curr_level+1});
+            if(curr_node->right != NULL) level_queue.push({curr_node->right, curr_level+1});
+        }
+
+        return soln;     
+    }
 };
 
 int main(){

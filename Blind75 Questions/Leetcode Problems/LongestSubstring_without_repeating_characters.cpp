@@ -37,27 +37,32 @@ public:
     //keep track of largest length found
     //keep track of start index
     //for each element, place it into a set. if we find a repeating element, max = max(max, sizeofSet)
+    //Complexity : Time 0(n), Space 0(n)
     int lengthOfLongestSubstring(string s) {
         int longest =0;
-        set<char> store;
+        unordered_set<char>store;
         deque<char> slidingWindow;
         
         for(int i =0; i < s.size(); i++){
             auto res = store.insert(s.at(i));
             slidingWindow.push_back(s.at(i));
 
-            if(res.second == false){
+
+            if(res.second == false){ //This means insertion failed because there was an object already in the set
+
                 //remove items from set and dequeue before repeated object
                 while (slidingWindow.front() != s.at(i))
                 {
-                    store.erase(slidingWindow.front());
-                    slidingWindow.pop_front();
+                    store.erase(slidingWindow.front()); //remove items from set
+
+                    slidingWindow.pop_front(); //remove the initial elements from the top of the sliding window
                 }
 
                 //found the element
                 slidingWindow.pop_front();
             }
 
+            //update the largest element
             if(slidingWindow.size() > longest) longest = slidingWindow.size();
 
         }

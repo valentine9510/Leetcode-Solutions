@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <math.h>
 
+using namespace std;
+
 class Solution {
 public:
     /**
@@ -33,12 +35,13 @@ public:
         int i = 0;
 
 
-        //case 1, intervals before newInterval
+        //case 1, Add all intervals before newInterval
         while(i<intervals.size()  && intervals.at(i).at(1) < newInterval.at(0)){
             answer.push_back(intervals.at(i)); //just add it to solution
             i++;
         }
 
+        //Case2, merging time
         while(i<intervals.size()  &&  newInterval.at(1) >= intervals.at(i).at(0)){ //case 2, merging. NewInterval end >= currentInterval start
             newInterval.at(0) = min(intervals.at(i).at(0), newInterval.at(0));
             newInterval.at(1) = max(intervals.at(i).at(1), newInterval.at(1));
@@ -46,7 +49,7 @@ public:
         }
         answer.push_back(newInterval); //handles empty calse 2
 
-
+        //Case3, Adding all intervals after newInterval
         while(i < intervals.size()){
             answer.push_back(intervals.at(i));
             i++;
