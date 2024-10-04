@@ -1579,7 +1579,7 @@ int longestPalindrome_blinkList75(string s) {
 //Plan
 //Find substrings
 //If it is longer than the currentLongest, replace currentLongest
-string longestPalindrome(string s){
+string longestPalindrome_inefficient(string s){
     string longest = "";
     set<string> memoize;
 
@@ -1618,35 +1618,36 @@ string longestPalindrome(string s){
  * For each character,
  * Keep expanding outwards while having it as the center and look for palindromes, check for even length and check for odd length
  */
-string longestPalindrome3(string s){
-    string solution = "";
+string longestPalindrome(string s) {
+        string result = "";
 
-    for(auto i = 0; i < s.size(); i++){
-        //Look for odd
-        int start = i;int end = i;
-        while (start >= 0 && end < s.size() && (s.at(start) == s.at(end)) ) //Check in bounds and if they are equal
-        {          
-            if((end-start+1) > solution.size()){ //Longer than current palindrome
-                solution = s.substr(start,(end-start+1));
+        for (int i = 0; i < s.size(); i++) {
+            // Odd-length palindromes
+            int start = i;
+            int end = i;
+            while (start >= 0 && end < s.size() && s[start] == s[end]) {
+                start--;
+                end++;
             }
-            start--; end++;
+            // After the while loop, start and end will be one step beyond the palindrome, so adjust them
+            if ((end - start - 1) > result.size()) {
+                result = s.substr(start + 1, end - start - 1);
+            }
+
+            // Even-length palindromes
+            start = i;
+            end = i + 1;
+            while (start >= 0 && end < s.size() && s[start] == s[end]) {
+                start--;
+                end++;
+            }
+            if ((end - start - 1) > result.size()) {
+                result = s.substr(start + 1, end - start - 1);
+            }
         }
 
-        
-        //Look for evens
-        start = i; end = i+1;
-        while (start >= 0 && end < s.size() && (s.at(start) == s.at(end)) ) //Check in bounds and if they are equal
-        {
-            if((end-start+1) > solution.size()){ //Longer than current palindrome
-                solution = s.substr(start,(end-start+1));
-            }
-            start--; end++;
-        }
-        
+        return result;
     }
-
-    return solution;
-}
 
 /**
  * @brief Plan

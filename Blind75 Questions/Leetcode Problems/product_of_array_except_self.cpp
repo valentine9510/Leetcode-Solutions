@@ -87,7 +87,7 @@ vector<int> productExceptSelf(vector<int>& nums) {
 
     // Calculate prefix products
     for (int i = 1; i < n; i++) {
-        answer[i] = answer[i - 1] * nums[i - 1];
+        answer[i] = answer[i - 1] * nums[i - 1]; //Start from index 1 : { [1,2,3,4] --> [1, 1, 2, 6]}
     }
 
     // Calculate suffix products and multiply with prefix products

@@ -52,7 +52,7 @@ public:
         }
 
         //for choices
-            //if choice is valud
+            //if choice is valid
                 //add choice to current solution
                     //backtrack
                 //remove choice from current solution

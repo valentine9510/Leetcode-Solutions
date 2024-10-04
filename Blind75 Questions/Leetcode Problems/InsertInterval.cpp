@@ -14,6 +14,17 @@
 
 using namespace std;
 
+/*
+    Insert all intervals into solution that are before merge interval
+
+    For a merging case
+        Update new interval
+
+    Insert interval
+
+    Add all intervals after inserted one
+
+*/
 class Solution {
 public:
     /**

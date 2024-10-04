@@ -78,7 +78,7 @@ public:
 
     vector<vector<int>> kClosest2(vector<vector<int>>& points, int k) {
         sort(points.begin(), points.end(), [](const std::vector<int>& a, const std::vector<int>& b){
-            return sumOfSquares(b) > sumOfSquares(a); //min heap, we want the smallest values first
+            return sumOfSquares(a) < sumOfSquares(b); //min heap, we want the smallest values first
         });
 
         vector<vector<int>> res;

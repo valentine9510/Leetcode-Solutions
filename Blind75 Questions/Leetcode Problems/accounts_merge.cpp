@@ -1,6 +1,6 @@
 /**
  * @file accounts_merge.cpp
- * @author your name (you@domain.com)
+ * @author Valentine Roland
  * @brief 
  * @version 0.1
  * @date 2024-08-14
@@ -37,6 +37,22 @@ using namespace std;
     Input: accounts = [["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe1@m.co"],["Kevin","Kevin3@m.co","Kevin5@m.co","Kevin0@m.co"],["Ethan","Ethan5@m.co","Ethan4@m.co","Ethan0@m.co"],["Hanzo","Hanzo3@m.co","Hanzo1@m.co","Hanzo0@m.co"],["Fern","Fern5@m.co","Fern1@m.co","Fern0@m.co"]]
     Output: [["Ethan","Ethan0@m.co","Ethan4@m.co","Ethan5@m.co"],["Gabe","Gabe0@m.co","Gabe1@m.co","Gabe3@m.co"],["Hanzo","Hanzo0@m.co","Hanzo1@m.co","Hanzo3@m.co"],["Kevin","Kevin0@m.co","Kevin3@m.co","Kevin5@m.co"],["Fern","Fern0@m.co","Fern1@m.co","Fern5@m.co"]]
 */
+
+/* - If 2 accounts have a similar email, they are to be merged
+*  - Just because accounts have the same name, does not mean that they are related
+    - 2 Accounts that belong to the same person will always have the same name
+ 
+
+    - This is a union find graph person
+    - Iterate through every account to find the email
+    - Get every email and map it to the account index
+    - If we find an email that already exists in the hashmap, then it belongs to the same person
+        - So we then send my union find structure
+
+    - We then iterate through each email 
+        - Then each email is mapped to a single account
+        
+ */
 
 /*
     Plan
@@ -110,3 +126,81 @@ public:
  * @brief ChatGPT Solution
  * 
  */
+
+class UnionFind {
+public:
+    UnionFind(int n) : parent(n) {
+        for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+        }
+    }
+
+    int find(int x) {
+        if (x != parent[x]) {
+            parent[x] = find(parent[x]); // Path compression
+        }
+        return parent[x];
+    }
+
+    void unite(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX != rootY) {
+            parent[rootX] = rootY;
+        }
+    }
+
+private:
+    vector<int> parent;
+};
+
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        unordered_map<string, int> email_to_id;
+        unordered_map<string, string> email_to_name;
+        int email_count = 0;
+
+        // Step 1: Initialize Union-Find and map emails to indices
+        for (const auto& account : accounts) {
+            const string& name = account[0];
+            for (int i = 1; i < account.size(); ++i) {
+                const string& email = account[i];
+                if (email_to_id.find(email) == email_to_id.end()) {
+                    email_to_id[email] = email_count++;
+                }
+                email_to_name[email] = name;
+            }
+        }
+
+        UnionFind uf(email_count);
+
+        // Step 2: Union emails within the same account
+        for (const auto& account : accounts) {
+            int first_email_id = email_to_id[account[1]];
+            for (int i = 2; i < account.size(); ++i) {
+                int email_id = email_to_id[account[i]];
+                uf.unite(first_email_id, email_id);
+            }
+        }
+
+        // Step 3: Group emails by their root parent
+        unordered_map<int, vector<string>> groups;
+        for (const auto& email_id_pair : email_to_id) {
+            const string& email = email_id_pair.first;
+            int root_id = uf.find(email_id_pair.second);
+            groups[root_id].push_back(email);
+        }
+
+        // Step 4: Prepare the result
+        vector<vector<string>> merged_accounts;
+        for (auto& group : groups) {
+            vector<string>& emails = group.second;
+            sort(emails.begin(), emails.end());
+            emails.insert(emails.begin(), email_to_name[emails[0]]);
+            merged_accounts.push_back(move(emails));
+        }
+
+        return merged_accounts;
+    }
+};

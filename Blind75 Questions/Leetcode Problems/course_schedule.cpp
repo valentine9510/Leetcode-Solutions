@@ -51,7 +51,7 @@ public:
 
         visitSet.insert(course);
 
-        for(int preReqCourse : storage.at(course)){
+        for(int preReqCourse : storage.at(course)){ //for each pre-req in the list of courses, can we take it ?
             if (dfs(storage, visitSet, preReqCourse) == false) return false;
         }
 

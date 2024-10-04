@@ -131,8 +131,8 @@ bool find_value_in_bst (BST_Node* root, int value){
     if(root == NULL) return false;
     if(root->val == value) return true;
 
-    if(root->left != NULL && value <= root->left->val) return find_value_in_bst(root->left, value);
-    else if(root->right != NULL && value > root->right->val) return find_value_in_bst(root->right, value);
+    if(root->val < value) return find_value_in_bst(root->left, value);
+    else return find_value_in_bst(root->right, value);
 
     return false;
 }
@@ -283,7 +283,7 @@ bool IsSubtreeGreater(BST_Node* root, int value){
 
 /**
  * @brief Check if a tree is BST
- * 
+ * Time complexity of your implementation is n^2;
  * @param root 
  * @return true 
  * @return false 
@@ -358,7 +358,7 @@ int diameterOfBinaryTree(BST_Node* root) {
 }
 
 /**
- * @brief Find the lowest Common Ancestor
+ * @brief Find the lowest Common Ancestor of a binary search tree
  * 
  * @param root 
  * @param p 
@@ -377,6 +377,55 @@ BST_Node* lowestCommonAncestor(BST_Node* root, BST_Node* p, BST_Node* q) {
             return root;
     }
     return nullptr;
+}
+
+BST_Node* lowestCommonAncestor(BST_Node* root, BST_Node* p, BST_Node* q) {
+    // Base case: if root is null, return null
+    if (root == nullptr) return nullptr;
+
+    // If both p and q are greater than root, LCA must be in the right subtree
+    if (p->val > root->val && q->val > root->val)
+        return lowestCommonAncestor(root->right, p, q);
+
+    // If both p and q are less than root, LCA must be in the left subtree
+    if (p->val < root->val && q->val < root->val)
+        return lowestCommonAncestor(root->left, p, q);
+
+    // If one node is on the left and the other is on the right, root is the LCA
+    return root;
+}
+
+/**
+ * @brief Plan
+ * 1. Base case root == null, return root \n
+ * 2. swap left and right subtree \n
+ * 3. invert right \n
+ * 4. invert left \n
+ * 5. return root \n
+ */
+BST_Node* invertTree(BST_Node* root){
+    if(root == NULL) return root;
+
+    BST_Node* temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+
+    root->left = invertTree(root->left);
+    root->right = invertTree(root->right);
+    
+    return root;
+}
+
+/**
+ * @brief Plan
+ * Recursion
+ * 1+ max(rightSub, leftSub);
+ * 
+ * Base case : if (root == NULL) return 0;
+ */
+int maxDepth(BST_Node* root){
+    if(root == NULL) return 0;
+    return 1 + std::max(maxDepth(root->left), maxDepth(root->right));
 }
 
 

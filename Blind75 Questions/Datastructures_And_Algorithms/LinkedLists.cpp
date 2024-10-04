@@ -1,6 +1,6 @@
 /**
  * @file LinkedLists.cpp
- * @author your name (you@domain.com)
+ * @author Valentine Roland
  * @brief All about Linked Lists
  * @version 0.1
  * @date 2023-11-16

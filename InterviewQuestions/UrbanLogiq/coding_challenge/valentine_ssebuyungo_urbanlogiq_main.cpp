@@ -1,6 +1,6 @@
 /**
  * @file valentine_ssebuyungo_main.cpp
- * @author your name (you@domain.com)
+ * @author Valentine Roland
  * @brief 
  * @version 0.1
  * @date 2023-12-28
