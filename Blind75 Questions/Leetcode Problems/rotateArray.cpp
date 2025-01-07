@@ -45,23 +45,33 @@ using namespace std;
  * 
  */
 
+/*
+nums = [1, 2, 3, 4, 5, 6, 7], k = 3
+Output: [5,6,7,1,2,3,4]
+*/
+
 class Solution {
 public:
-    void rotate(std::vector<int>& nums, int k) {
+    void rotate(vector<int>& nums, int k) {
         int n = nums.size();
         k = k % n;  // Handle cases where k > n
-        int count = 0;  // Number of elements rotated
 
-        for (int start = 0; count < n; start++) {
-            int current = start;
-            int prev = nums[start];
+        // Reverse helper function
+        auto reverse = [&](int start, int end) {
+            while (start < end) {
+                std::swap(nums[start], nums[end]);
+                start++;
+                end--;
+            }
+        };
 
-            do {
-                int next = (current + k) % n;
-                std::swap(nums[next], prev);
-                current = next;
-                count++;
-            } while (start != current);
-        }
+        // Step 1: Reverse the whole array
+        reverse(0, n - 1);
+        
+        // Step 2: Reverse the first k elements
+        reverse(0, k - 1);
+        
+        // Step 3: Reverse the remaining elements
+        reverse(k, n - 1);
     }
 };
