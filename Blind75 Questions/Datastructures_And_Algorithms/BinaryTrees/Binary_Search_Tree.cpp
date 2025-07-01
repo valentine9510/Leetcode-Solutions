@@ -313,6 +313,26 @@ int findBSTHeight(BST_Node* root){
 }
 
 /**
+ * @brief Get the simple height of a BST
+ * The height of a tree is the number of edges on the longest path from root to leaf.
+ * An empty tree has height -1, a tree with just a root has height 0.
+ * 
+ * @param root The root node of the tree
+ * @return int The height of the BST
+ */
+int getTreeHeight(BST_Node* root) {
+    // Base case: empty tree has height -1
+    if(root == NULL) return -1;
+    
+    // Recursively find the height of left and right subtrees
+    int leftHeight = getTreeHeight(root->left);
+    int rightHeight = getTreeHeight(root->right);
+    
+    // The height is 1 + the maximum of left and right subtree heights
+    return 1 + max(leftHeight, rightHeight);
+}
+
+/**
  * @brief Find height of left and height of right
  * Difference should be less than one
  * 
