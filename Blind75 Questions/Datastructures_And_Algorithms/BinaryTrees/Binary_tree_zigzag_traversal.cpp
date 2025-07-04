@@ -42,30 +42,32 @@ class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         vector<vector<int>> answer;
+        queue<pair<TreeNode *, int>> tree_queue; // Node, level
 
-        queue<pair<TreeNode *, int>> tree_queue; //Node level
-        tree_queue.push({root, 0});
+        if(root)
+            tree_queue.push({root, 0});
 
-        while (!tree_queue.empty())
-        {
+        while (!tree_queue.empty()) {
             TreeNode *curr = tree_queue.front().first;
             int curr_level = tree_queue.front().second;
+            tree_queue.pop();  // ✅ Fix: Remove the node from the queue
 
-            if(curr_level > answer.size()){
+            if(curr_level >= answer.size()) {
                 answer.push_back({});
             }
 
-            if(curr_level%2 == 0){
-                answer[curr_level].push_back(curr->val); //front to back
+            if(curr_level % 2 == 0) {
+                answer[curr_level].push_back(curr->val);  // left to right
             } else {
-                //back to front
-                answer[curr_level].insert(answer[curr_level].begin(),curr->val);
+                answer[curr_level].insert(answer[curr_level].begin(), curr->val);  // right to left
             }
 
-            //add values to queue
-            tree_queue.push({curr->left, curr_level+1});
-            tree_queue.push({curr->right, curr_level+1});
+            if(curr->left)
+                tree_queue.push({curr->left, curr_level + 1});
+            if(curr->right)
+                tree_queue.push({curr->right, curr_level + 1});
         }
-        
+
+        return answer;
     }
 };
