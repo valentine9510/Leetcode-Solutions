@@ -35,22 +35,52 @@ Step 2: Reverse each row
 
 */
 
+/*
+    Complexity
+
+    Time: O(N^2) (we touch each element a constant number of times).
+
+    Space: O(1) extra space (in place).
+*/
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = (int)matrix.size();
+        if (n <= 1) return; // 0x0 or 1x1 are already “rotated”
+
+        // 1) Transpose: swap (i,j) with (j,i) for j > i
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                std::swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+
+        // 2) Reverse each row (horizontal flip)
+        for (int i = 0; i < n; ++i) {
+            std::reverse(matrix[i].begin(), matrix[i].end());
+        }
+    }
+};
+
+
+
 
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        int matrix_size = matrix.size();
 
-        //transpose matrix swap i,j with j,i
+        /* Transponse the matrix by swapping i,j with j,i for j > i */
         for(int i = 0; i < matrix.size(); i++){
-            for(int j = i+1; j < matrix[i].size(); j++){
-                swap(matrix[i][j], matrix[j][i]);
+            for(int j = i + 1; j < matrix.size(); j++){
+                std::swap(matrix[i][j], matrix[j][i]);
             }
         }
 
-        //reverse each row
+
+        /* Reverse each row */
+        /* Transponse the matrix by swapping i,j with j,i*/
         for(int i = 0; i < matrix.size(); i++){
-            reverse(matrix[i].begin(),matrix[i].end());
+            std::reverse(matrix[i].begin(), matrix[i].end());
         }
     }
 };

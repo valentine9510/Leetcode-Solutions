@@ -86,3 +86,37 @@ public:
     }
 };
 
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if(matrix.empty()) return 0;
+
+        int max_side = 0;
+
+        /*Make a dp array to track max square */
+        vector<vector<int>> sq_map (matrix.size(), vector<int> (matrix[0].size(), 0));
+
+        for(int row = 0; row < matrix.size(); row++){
+            for(int col = 0; col < matrix[row].size(); col++){
+                if(matrix[row][col] == '1'){
+                    if(row == 0 || col == 0)
+                        sq_map[row][col] = 1;
+                    else //Check min of 3 sides
+                        sq_map[row][col] = std::min(sq_map[row-1][col], min(sq_map[row][col-1],sq_map[row-1][col-1])) + 1;
+                }
+
+                max_side = std::max(max_side, sq_map[row][col]);
+            }
+        }
+
+        return max_side*max_side;
+    }
+};

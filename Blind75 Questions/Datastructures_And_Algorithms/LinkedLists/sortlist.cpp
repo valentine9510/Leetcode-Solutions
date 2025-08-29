@@ -95,3 +95,61 @@ public:
         return slow;
     }
 };
+
+
+class Solution {
+public:
+    /* Merge sort */
+    ListNode* sortList(ListNode* head) {
+        if(head == NULL || head->next == NULL) return head;
+        //Split into 2
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* prev;
+
+        while (fast != NULL && fast->next->next != NULL)
+        {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        //slow will be the head of the second list
+        prev->next = NULL;
+        
+
+        //Sort left
+        ListNode* left = sortList(head);
+
+        //Sort right
+        ListNode* right = sortList(slow);
+
+        //Merge left and right
+        ListNode* soln_head;
+        ListNode* soln = soln_head;
+
+
+        while (left != NULL && right != NULL)
+        {
+            if(left->val < right->val){ //left advanced
+                if(soln == NULL)
+                    soln = left;
+                else
+                    soln->next = left;
+
+                left = left->next;
+
+            } else {
+                if(soln == NULL)
+                    soln = right;
+                else
+                    soln->next = right;
+
+                right = right->next;
+            }
+        }
+
+        return soln_head;
+        
+    }
+};

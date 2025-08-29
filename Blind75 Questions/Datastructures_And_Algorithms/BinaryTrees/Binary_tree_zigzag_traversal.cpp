@@ -71,3 +71,45 @@ public:
         return answer;
     }
 };
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> answer;
+        if(!root) return {};
+
+        queue<pair<TreeNode*, int>> queue; /* Track node and level */
+        queue.push(std::make_pair(root, 0));
+
+        while (!queue.empty())
+        {
+            TreeNode* curr_node = queue.front().first;
+            int curr_level = queue.front().second;
+
+            if(answer.size() < curr_level+1) answer.push_back({}); //add a new level
+
+            if(curr_level %2 == 0) {
+                answer[curr_level].push_back(curr_node->val); //Push back
+            } else {
+                answer[curr_level].insert(answer[curr_level].begin(), curr_node->val); //Push front
+            }
+
+            //Push children
+            if(curr_node->left) queue.push(make_pair(curr_node->left, curr_level+1));
+            if(curr_node->right) queue.push(make_pair(curr_node->right, curr_level+1));
+        }
+
+        return ans;
+        
+    }
+};
+
+
