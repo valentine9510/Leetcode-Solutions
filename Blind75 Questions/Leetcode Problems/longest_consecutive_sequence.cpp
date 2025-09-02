@@ -72,3 +72,32 @@ public:
         return longest;
     }
 };
+
+
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        int longest = 0;
+
+        unordered_set<int> store (nums.begin(), nums.end());
+
+        for(auto i : nums){
+            if(store.find(i-1) == store.end()){ //if no predecessor, start counting, this is to avoid repeating characters
+                int streak = 1;
+                int temp = i+1;
+
+                while ((store.find(temp) != store.end()))
+                {
+                    streak++;
+                    temp++;
+                }
+
+                longest = std::max(longest, streak);                
+            }   
+        }
+
+        return longest;
+    }
+};

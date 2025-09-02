@@ -52,7 +52,7 @@ public:
         //make priority min heap
         priority_queue<pair<string,int>, vector<pair<string, int>>, compareVector> words_heap;
 
-        //push elements onto the min heap, we only push elements that 
+        //push elements onto the max heap, we only push elements that 
         for(auto store_pair : store)
             words_heap.push(store_pair);
 

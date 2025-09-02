@@ -59,3 +59,45 @@ public:
         return result;
     }
 };
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<string> storage;
+        stack<int> multipliers;
+        string result;
+        int num = 0;
+
+        for(char c : s){
+            if(isdigit(c)){
+                num = (num*10) + (c - '0'); //update number
+            } else if (c == '[') {
+                multipliers.push(num);
+                num = 0;
+                storage.push(result);
+                result.clear();
+
+            } else if (c == ']') {
+                int mutiple = multipliers.top();
+                multipliers.pop();
+
+                string temp = storage.top();
+                storage.pop();
+
+                while (mutiple)
+                {
+                    temp += result;
+                    mutiple--;
+                }
+                
+                result = temp;                
+
+            } else {
+                //add to result
+                result += to_string(c);
+            }
+        }
+
+        return result;
+    }
+};

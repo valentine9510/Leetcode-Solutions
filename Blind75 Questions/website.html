@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit Punch - Complete Win Record</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #FAFBFC;
+            color: #1A202C;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Header with improved hierarchy */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            padding: 0 20px;
+        }
+
+        .main-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #1A202C;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #4A5568;
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-summary {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-top: 48px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #E2E8F0;
+            min-width: 140px;
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #208A00;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #4A5568;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Year Section with better spacing */
+        .year-section {
+            margin-bottom: 100px;
+        }
+
+        .year-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .year-summary {
+            text-align: center;
+            margin-bottom: 48px;
+            font-size: 1.125rem;
+            color: #4A5568;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Improved year stats with better contrast */
+        .year-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .year-stat {
+            text-align: center;
+        }
+
+        .year-stat-number {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: #208A00;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .year-stat-label {
+            font-size: 0.875rem;
+            color: #4A5568;
+            font-weight: 600;
+        }
+
+        /* Table with proper contrast and accessibility */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .wins-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .wins-table th {
+            background: #F8FAFC;
+            color: #1E3A8A;
+            padding: 20px 16px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #DBEAFE;
+        }
+
+        .wins-table td {
+            padding: 20px 16px;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: middle;
+        }
+
+        .wins-table tbody tr {
+            transition: background-color 0.15s ease;
+        }
+
+        .wins-table tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+        .wins-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Improved typography and contrast */
+        .stock-symbol {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #1E3A8A;
+        }
+
+        .gain-cell {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #208A00;
+        }
+
+        .strategy-tag {
+            background: #EFF6FF;
+            color: #1D4ED8;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            white-space: nowrap;
+            border: 1px solid #BFDBFE;
+        }
+
+        .link-cell {
+            text-align: center;
+        }
+
+        .view-link {
+            background: #6528F7;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            transition: all 0.15s ease;
+            display: inline-block;
+        }
+
+        .view-link:hover {
+            background: #5a23d9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(101, 40, 247, 0.25);
+        }
+
+        .view-link:focus {
+            outline: 2px solid #6528F7;
+            outline-offset: 2px;
+        }
+
+        .no-link {
+            color: #9CA3AF;
+            font-style: italic;
+            font-size: 0.8125rem;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 16px;
+            }
+
+            .main-title {
+                font-size: 2.25rem;
+            }
+
+            .stats-summary {
+                gap: 24px;
+            }
+
+            .stat-box {
+                min-width: 120px;
+                padding: 20px 16px;
+            }
+
+            .wins-table th,
+            .wins-table td {
+                padding: 16px 12px;
+            }
+
+            .year-stats {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 20px;
+                padding: 24px;
+            }
+
+            .year-section {
+                margin-bottom: 60px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .table-container {
+                overflow-x: auto;
+                border-radius: 12px;
+            }
+
+            .wins-table {
+                min-width: 600px;
+            }
+
+            .stats-summary {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .stat-box {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .view-link:focus-visible {
+            outline: 2px solid #6528F7;
+            outline-offset: 2px;
+        }
+
+        /* Loading animation for better UX */
+        .wins-table tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stagger animation delays */
+        .wins-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+        .wins-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+        .wins-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+        .wins-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+        .wins-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+        .wins-table tbody tr:nth-child(6) { animation-delay: 0.3s; }
+        .wins-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
+        .wins-table tbody tr:nth-child(8) { animation-delay: 0.4s; }
+        .wins-table tbody tr:nth-child(9) { animation-delay: 0.45s; }
+        .wins-table tbody tr:nth-child(10) { animation-delay: 0.5s; }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .table-container {
+                box-shadow: none;
+                border: 2px solid #000;
+            }
+            
+            .view-link {
+                color: #000;
+                background: none;
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="main-title">Complete Win Record</h1>
+            <p class="subtitle">Every documented winning trade from our newsletter alerts with full transparency and verifiable links</p>
+            
+            <div class="stats-summary">
+                <div class="stat-box">
+                    <span class="stat-number">60+</span>
+                    <span class="stat-label">Total Wins</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">350%</span>
+                    <span class="stat-label">Top Single Gain</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">20+</span>
+                    <span class="stat-label">100%+ Winners</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2025 Winners Table -->
+        <section class="year-section">
+            <h2 class="year-title">2025 Winners</h2>
+            <p class="year-summary">Current year performances</p>
+            
+            <div class="year-stats">
+                <div class="year-stat">
+                    <span class="year-stat-number">35+</span>
+                    <span class="year-stat-label">Total Trades</span>
+                </div>
+                <div class="year-stat">
+                    <span class="year-stat-number">130%</span>
+                    <span class="year-stat-label">Best Single Win</span>
+                </div>
+                <div class="year-stat">
+                    <span class="year-stat-number">8</span>
+                    <span class="year-stat-label">100%+ Winners</span>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="wins-table">
+                    <thead>
+                        <tr>
+                            <th>Stock</th>
+                            <th>Gain</th>
+                            <th>Strategy</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="stock-symbol">RKLB</td>
+                            <td class="gain-cell">+130%</td>
+                            <td><span class="strategy-tag">Investment Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alert-3af634dcfcd36a24" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">QBTS</td>
+                            <td class="gain-cell">+130%</td>
+                            <td><span class="strategy-tag">Swing Trade</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/swing-trade-alert-9fc3" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">DAVE</td>
+                            <td class="gain-cell">+120%</td>
+                            <td><span class="strategy-tag">Earnings Play</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/swing-trade-alert-9fc3" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">QUBT</td>
+                            <td class="gain-cell">+110%</td>
+                            <td><span class="strategy-tag">Investment Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alert" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">CLS</td>
+                            <td class="gain-cell">+104%</td>
+                            <td><span class="strategy-tag">Investment Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alert" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">MVST</td>
+                            <td class="gain-cell">+100%</td>
+                            <td><span class="strategy-tag">Clean Energy</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alert" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">BOIL</td>
+                            <td class="gain-cell">+80%</td>
+                            <td><span class="strategy-tag">50-EMA Bounce</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/swing-trades-alert-shorting" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">CLS</td>
+                            <td class="gain-cell">+75%</td>
+                            <td><span class="strategy-tag">Tech/Quantum</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/top-sector-trades-tech-quantum-and-more" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">COIN</td>
+                            <td class="gain-cell">+70%</td>
+                            <td><span class="strategy-tag">Crypto/Earnings</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/trade-alerts-earnings-crypto-more-a3a8223332d22111" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">SOFI</td>
+                            <td class="gain-cell">+70%</td>
+                            <td><span class="strategy-tag">Premium Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/premium-alert-3-stocks" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">FIX</td>
+                            <td class="gain-cell">+60%</td>
+                            <td><span class="strategy-tag">Multi-Trade Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alerts-ed7caf8a33659cf8" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">RGTI</td>
+                            <td class="gain-cell">+50%</td>
+                            <td><span class="strategy-tag">Investment Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alert" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">TPR</td>
+                            <td class="gain-cell">+40%</td>
+                            <td><span class="strategy-tag">Multi-Trade Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alerts-ed7caf8a33659cf8" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">RCL</td>
+                            <td class="gain-cell">+40%</td>
+                            <td><span class="strategy-tag">Multi-Trade Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-alerts-ed7caf8a33659cf8" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">PLTR</td>
+                            <td class="gain-cell">+40%</td>
+                            <td><span class="strategy-tag">Tech/Quantum</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/top-sector-trades-tech-quantum-and-more" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">TLN</td>
+                            <td class="gain-cell">+40%</td>
+                            <td><span class="strategy-tag">Utilities/AI</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/utilities-power-up-on-ai-demand-c56b230951837786" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">BITX</td>
+                            <td class="gain-cell">+40%</td>
+                            <td><span class="strategy-tag">Bitcoin ETF</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/long-term-investment-alert" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">SGHC</td>
+                            <td class="gain-cell">+31%</td>
+                            <td><span class="strategy-tag">Exploding Stocks</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/5-stocks-exploding-today-pick-your-top-2-aad7ff7346da85df" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">CRK</td>
+                            <td class="gain-cell">+30%</td>
+                            <td><span class="strategy-tag">Premium Alert</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/premium-alert-these-5-stocks-are-built-to-hold-f6a3c09ed2b2f9cb" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">CVNA</td>
+                            <td class="gain-cell">+30%</td>
+                            <td><span class="strategy-tag">Swing Trade</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/swing-trade-alert-9fc3" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">GEV</td>
+                            <td class="gain-cell">+30%</td>
+                            <td><span class="strategy-tag">50-EMA Bounce</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/trade-alert-tsm-gev-vrt" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">VRT</td>
+                            <td class="gain-cell">+30%</td>
+                            <td><span class="strategy-tag">50-EMA Bounce</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/trade-alert-tsm-gev-vrt" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">PLTR</td>
+                            <td class="gain-cell">+25%</td>
+                            <td><span class="strategy-tag">Earnings Play</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/earnings-swing-trade-alert-pltr" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">APP</td>
+                            <td class="gain-cell">+25%</td>
+                            <td><span class="strategy-tag">Swing Trade</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/swing-trade-alert-9fc3" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">AFRM</td>
+                            <td class="gain-cell">+20%</td>
+                            <td><span class="strategy-tag">Earnings Play</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/earnings-swing-trade-alerts" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 2024 Winners Table -->
+        <section class="year-section">
+            <h2 class="year-title">2024 Winners</h2>
+            <p class="year-summary">Our breakthrough year featuring massive Argentina recovery plays, masterful cup &amp; handle patterns, and the foundation of our proven trading methodology</p>
+            
+            <div class="year-stats">
+                <div class="year-stat">
+                    <span class="year-stat-number">30+</span>
+                    <span class="year-stat-label">Total Trades</span>
+                </div>
+                <div class="year-stat">
+                    <span class="year-stat-number">350%</span>
+                    <span class="year-stat-label">Best Single Win</span>
+                </div>
+                <div class="year-stat">
+                    <span class="year-stat-number">12</span>
+                    <span class="year-stat-label">100%+ Winners</span>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="wins-table">
+                    <thead>
+                        <tr>
+                            <th>Stock</th>
+                            <th>Gain</th>
+                            <th>Strategy</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="stock-symbol">APP</td>
+                            <td class="gain-cell">+350%</td>
+                            <td><span class="strategy-tag">Cup &amp; Handle</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-opportunities-september-2024" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">SMCI</td>
+                            <td class="gain-cell">+240%</td>
+                            <td><span class="strategy-tag">Cup &amp; Handle</span></td>
+                            <td class="link-cell"><span class="no-link">Internal Alert</span></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">NVDA</td>
+                            <td class="gain-cell">+200%</td>
+                            <td><span class="strategy-tag">Cup &amp; Handle</span></td>
+                            <td class="link-cell"><span class="no-link">Internal Alert</span></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">VITL</td>
+                            <td class="gain-cell">+190%</td>
+                            <td><span class="strategy-tag">Flat Base</span></td>
+                            <td class="link-cell"><span class="no-link">Internal Alert</span></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">SUPV</td>
+                            <td class="gain-cell">+132%</td>
+                            <td><span class="strategy-tag">Argentina Recovery</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-opportunities-september-2024" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">YPF</td>
+                            <td class="gain-cell">+103%</td>
+                            <td><span class="strategy-tag">Argentina Recovery</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-opportunities-september-2024" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">BBAR</td>
+                            <td class="gain-cell">+100%</td>
+                            <td><span class="strategy-tag">Argentina Banking</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/investment-opportunities-september-2024" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">BMA</td>
+                            <td class="gain-cell">+100%</td>
+                            <td><span class="strategy-tag">Argentina Banking</span></td>
+                            <td class="link-cell"><span class="no-link">Internal Alert</span></td>
+                        </tr>
+                        <tr>
+                            <td class="stock-symbol">IBKR</td>
+                            <td class="gain-cell">+85%</td>
+                            <td><span class="strategy-tag">Cup &amp; Handle</span></td>
+                            <td class="link-cell"><a href="https://profit-punch.beehiiv.com/p/interactive-brokers-stock-time-highs" class="view-link" target="_blank" rel="noopener">View Alert</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

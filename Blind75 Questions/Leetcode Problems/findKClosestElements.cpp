@@ -57,6 +57,15 @@ struct CompareVector {
     }
 };
 
+struct compare_test
+{
+    bool operator()(const pair<int,int> &a, const pair<int,int>&b){
+        if(a.second == b.second)
+            return b.first > a.first;
+        return b.second > a.second;
+    }
+};
+
 class Solution {
 public:
     struct comparator_custom
@@ -64,7 +73,7 @@ public:
         bool operator()(const pair<int,int>& a, const pair<int,int>& b) {
             if(b.second == a.second)
                 return b.first > a.first;
-            return b.second > a.second; //max heap, we want the bigges values first
+            return b.second > a.second; //max heap, we want the biggest values first
         }
     };
     

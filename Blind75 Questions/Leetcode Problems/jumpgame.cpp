@@ -27,16 +27,16 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
  */
 
 /*
-    Use a set to keep track of visited indices, if we have visited it, we should not visit again, if so, we are in a cycle
-
 
  */
 class Solution {
-public:
-    bool canJump(vector<int>& nums) {
-        set<int> store;
-        int curr_index = 0;
-
-        return true;
-    }
-};
+    public:
+        bool canJump(vector<int>& nums) {
+            int farthest = 0;
+            for (int i = 0; i < nums.size(); i++) {
+                if (i > farthest) return false;
+                farthest = max(farthest, i + nums[i]);
+            }
+            return true;
+        }
+};   

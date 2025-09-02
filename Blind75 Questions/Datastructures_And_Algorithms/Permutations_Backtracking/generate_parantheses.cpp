@@ -118,3 +118,29 @@ public:
             backtrack(result, curr+')', open, close+1, max);
     }
 };
+
+class Solution {
+public:
+    void backtrack(vector<string> &soln, string curr, int open, int close, int max){
+        if(curr.size() == max*2){
+            soln.push_back(curr);
+        }
+
+        if(open < max) //Still have open brackets
+            backtrack(soln, curr + "(", open+1, close, max);
+
+        if(close < open)
+            backtrack(soln, curr + ")", open, close+1, max);
+    }
+
+    vector<string> generateParenthesis(int n) {
+        //Only generate valid possibilities
+        vector<string> soln;
+
+        backtrack(soln, "", 0, 0, n);
+
+        return soln;
+    }
+
+
+};
