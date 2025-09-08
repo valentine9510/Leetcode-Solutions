@@ -79,7 +79,23 @@ int maxProduct(vector<int>& nums) {
 
 
 
+int maxProduct(vector<int>& nums) {
+    int min_prod = nums[0];
+    int max_prod = nums[0];
+    int result = nums[0];
 
+    for(auto curr : nums){
+        if(curr < 0)
+            std::swap(min_prod, max_prod);
+        
+        min_prod = std::min(min_prod, min_prod*curr);
+        max_prod = std::min(max_prod, max_prod*curr);
+
+        result = std::max(result, max_prod);
+    }
+
+    return result;
+}
 
 
 

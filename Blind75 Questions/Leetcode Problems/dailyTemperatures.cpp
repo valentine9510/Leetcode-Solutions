@@ -83,3 +83,29 @@ public:
         return soln;
     }
 };
+
+
+
+
+
+
+
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        stack<int> store;
+        vector<int> soln (temperatures.size(), 0);
+
+        for(int i = 0; i < temperatures.size(); i++){
+            while(!store.empty() && temperatures[i] > temperatures[store.top()]){
+                int update_index = store.top();
+                store.pop();
+
+                soln[update_index] = i - update_index;
+            }
+            store.push(i);
+        }
+
+        return soln;
+    }
+};

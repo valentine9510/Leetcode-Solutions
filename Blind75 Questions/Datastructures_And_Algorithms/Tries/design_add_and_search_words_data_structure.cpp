@@ -35,6 +35,22 @@ wordDictionary.search("b.."); // return True
 
 /*
 Implement a trie
+
+
+Complexity analysis
+
+addWord:
+Time: O(L) (L = word length)
+Space: up to O(L) new nodes (amortized across all words)
+
+search(pattern):
+
+If pattern has no dots: O(L) time (one path).
+
+With m dots, worst-case branching can approach O(26^m) in degenerate tries.
+A common bound to state: O(L) average / expected with pruning, up to exponential in the number of wildcards in the worst case.
+
+Space: recursion depth O(L) (or O(#states) for iterative stack
 */
 class WordDictionary {
 public:
@@ -85,3 +101,43 @@ public:
     }
 };
 
+
+
+
+
+
+class WordDictionary {
+public:
+    struct TrieNode {
+        bool isEnd = false;
+        TrieNode* children[26] = {nullptr};
+    };
+
+    TrieNode *root;
+
+    void addWord(string input){
+
+    }
+
+    bool search(string input){
+        if(!root) return false;
+
+        TrieNode *curr = root;
+
+        for(int i = 0; i < input.size(); i++){
+            char letter = std::tolower(input[i]);
+
+            if(curr->children[letter - 'a'] == nullptr)
+                return false;
+            
+            //check if it is the end of a word and the end of this word
+            if(i == input.size()-1 && curr->isEnd)
+                return true;
+
+            curr = curr->children[letter - 'a']; //advance
+
+        }
+
+        return false;
+    }
+};

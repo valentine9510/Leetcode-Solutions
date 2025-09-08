@@ -60,6 +60,18 @@ Explanation: The water can flow from the only cell to the Pacific and Atlantic o
  * Go through the grid and ensure that which are marked true on both oceans are the result
  * 
  */
+
+ /*
+📊 Complexity Analysis
+
+Time Complexity:
+Each cell is visited at most twice (once from Pacific, once from Atlantic).
+O(m * n)
+
+Space Complexity:
+Two m x n visited matrices → O(m * n)
+DFS recursion stack → O(m * n) in worst case.
+*/
 class Solution {
 public:
     int rows, cols;
@@ -104,6 +116,135 @@ public:
             for (int j = 0; j < cols; j++) {
                 if (pacific[i][j] && atlantic[i][j]) {
                     result.push_back({i, j});
+                }
+            }
+        }
+
+        return result;
+    }
+};
+
+
+
+
+
+
+// for each cell, 
+    //use BFS to find if it can reach
+        //Antlantic
+        //pacific
+
+
+struct cell {
+    int r;
+    int c;
+};
+
+pair<bool, bool> explorer(vector<vector<int>>& heights, int r, int c) {
+    if(heights.empty()) return std::make_pair(false,false);
+
+    bool antlantic;
+    bool pacific;
+
+    int r_size = heights.size();
+    int c_size = heights[0].size();
+
+    vector<cell> directions = {{1,1}, {1,-1}, {-1,-1}, {-1, 1}};
+
+    //set for visited cells
+    vector<vector<bool>> visited (r_size, vector<bool>(c_size, 0));
+    queue<cell> q;
+    q.push({r,c});
+
+    while (q.empty() == false)
+    {
+        //Pop top
+        cell curr_cell = q.front();
+        q.pop();
+
+        //add it to visited
+        visited[curr_cell.r][curr_cell.c] = true;
+
+        //check if it touches the edges
+        if(curr_cell.r == r_size-1 || curr_cell.c == c_size-1)
+            antlantic = true;
+        if(curr_cell.r == 0 || curr_cell.c == 0)
+            pacific = true;
+
+        //add all directions, if it is lower or equal and if not visited
+        for(auto dir : directions){
+            cell p_cell = curr_cell;
+            p_cell.c += dir.c;
+            p_cell.r += dir.r;
+
+            if(p_cell.r < 0 || p_cell.r >= r_size || p_cell.c < 0 || p_cell.c >= c_size)
+                continue; //out of bounds
+            
+            if(!visited[p_cell.r][p_cell.c] && heights[p_cell.r][p_cell.c] <= heights[r][c])
+                q.push(p_cell);
+        }
+
+    }
+    
+    return std::make_pair(antlantic, pacific);
+}
+
+vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+}
+
+
+/*
+📊 Complexity Analysis
+
+Time Complexity:
+Each cell is visited at most twice (once from Pacific, once from Atlantic).
+O(m * n)
+
+Space Complexity:
+Two m x n visited matrices → O(m * n)
+DFS recursion stack → O(m * n) in worst case.
+*/
+class Solution {
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int m = heights.size();
+        int n = heights[0].size();
+
+        // Matrices to mark reachability from each ocean
+        vector<vector<bool>> pacific(m, vector<bool>(n, false));
+        vector<vector<bool>> atlantic(m, vector<bool>(n, false));
+
+        // Directions for neighbors (up, down, left, right)
+        vector<int> dir = {0, 1, 0, -1, 0};
+
+        // DFS function
+        function<void(int,int,vector<vector<bool>>&)> dfs = [&](int r, int c, vector<vector<bool>>& ocean) {
+            ocean[r][c] = true; // mark as visited for this ocean
+
+            for (int k = 0; k < 4; k++) {
+                int nr = r + dir[k], nc = c + dir[k+1];
+                // boundary + height condition + not visited yet
+                if (nr >= 0 && nr < m && nc >= 0 && nc < n &&
+                    !ocean[nr][nc] && heights[nr][nc] >= heights[r][c]) {
+                    dfs(nr, nc, ocean);
+                }
+            }
+        };
+
+        // Pacific: top row + left column
+        for (int c = 0; c < n; c++) dfs(0, c, pacific);
+        for (int r = 0; r < m; r++) dfs(r, 0, pacific);
+
+        // Atlantic: bottom row + right column
+        for (int c = 0; c < n; c++) dfs(m-1, c, atlantic);
+        for (int r = 0; r < m; r++) dfs(r, n-1, atlantic);
+
+        // Collect result where both oceans are reachable
+        vector<vector<int>> result;
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (pacific[r][c] && atlantic[r][c]) {
+                    result.push_back({r, c});
                 }
             }
         }

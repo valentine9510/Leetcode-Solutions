@@ -65,6 +65,9 @@ public:
         } while (slow != fast);
 
         // Phase 2: Find entry point of the cycle
+    /*
+        The distance from the start of the list to the start of the cycle is equal to the distance from the meeting point inside the cycle to the start of the cycle.
+    */
         slow = nums[0];
         while (slow != fast) {
             slow = nums[slow];  // Move slow by 1 step
@@ -76,27 +79,64 @@ public:
 
 };
 
+/*
+    Approach B: Binary search on the value range — O(n log n) time, O(1) space
+
+    Search low=1..n.
+
+    For a mid, count how many numbers are ≤ mid.
+
+    If count > mid, there are too many in the lower half ⇒ duplicate ≤ mid.
+
+    Else, duplicate > mid.
+
+    Narrow until low == high — that’s the duplicate.
+
+    Why it works: pigeonhole principle—more items than slots in a range implies a repeat in that range.
+
+    (Other ideas like sorting a copy or using a hash set are simpler but violate the “no extra space / don’t modify array” spirit.)
+    */
+class Solution {
+public:
+    int findDuplicate(std::vector<int>& nums) {
+        int low = 1, high = static_cast<int>(nums.size()) - 1; // values are in [1..n]
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            // Count how many numbers are <= mid
+            int cnt = 0;
+            for (int x : nums) if (x <= mid) ++cnt;
+
+            // If there are more than 'mid' numbers <= mid, duplicate is in [low..mid]
+            if (cnt > mid) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low; // or high; they are equal here
+    }
+};
+
+
 
 int findDuplicate(vector<int>& nums) {
     int fast = nums[0];
     int slow = nums[0];
 
-    //look for the cycle
     do {
-        slow = nums[slow]; //move by 1
-        fast = nums[nums[fast]]; //move by 2
-    } while (fast != slow);
+        slow = nums[slow];
+        fast = nums[nums[fast]];
+    } while (slow != fast);
 
-    //Find entry of cycle
-    /*
-        The distance from the start of the list to the start of the cycle is equal to the distance from the meeting point inside the cycle to the start of the cycle.
-    */
+    //found cycle
+
     slow = nums[0];
     while (slow != fast)
     {
         slow = nums[slow];
-        fast = nums[fast];
-    }
+        fast = nums[fast]; //move both by one step
+    }    
     
     return slow; //this is the duplicate    
 }

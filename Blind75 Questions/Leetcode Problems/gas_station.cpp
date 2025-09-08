@@ -54,8 +54,6 @@ Next keep track of the tank = tank + gas - cost
 if tank < 0, means we cant start at this or any station before this, so start=i+1
 
 */
-
-
 class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
@@ -73,5 +71,82 @@ public:
         }
 
         return (totalGas >= totalCost) ? startIndex : -1;
+    }
+};
+
+// LeetCode 134: Gas Station
+// Greedy O(n) time, O(1) space.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        const int n = (int)gas.size();
+
+        long long total = 0;   // total net gas across all stations
+        long long tank = 0;    // current tank while scanning
+        int start = 0;         // candidate start index
+
+        for (int i = 0; i < n; ++i) {
+            long long diff = (long long)gas[i] - (long long)cost[i];
+            total += diff;
+            tank  += diff;
+
+            // If we can't reach the next station from current candidate start,
+            // then any start in [start, i] is invalid. Reset start to i+1.
+            if (tank < 0) {
+                start = i + 1;
+                tank = 0; // reset running tank for the new segment
+            }
+        }
+
+        // If overall gas is insufficient, no solution.
+        if (total < 0) return -1;
+        // Otherwise, the greedy start works.
+        return (start == n ? 0 : start);
+    }
+};
+
+//BRUTE FORCE
+//See if you can move n steps away from it
+
+/*
+Complexity
+
+Time: O(n^2) → for each start (n), simulate n steps.
+
+Space: O(1) → only extra variables.
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+
+        // Try every station as starting point
+        for (int start = 0; start < n; ++start) {
+            int tank = 0;
+            bool ok = true;
+
+            // Simulate traveling n steps from this start
+            for (int step = 0; step < n; ++step) {
+                int cur = (start + step) % n;  // wrap around
+                tank += gas[cur] - cost[cur];
+
+                if (tank < 0) {
+                    ok = false; // ran out of gas
+                    break;
+                }
+            }
+
+            if (ok) return start; // found valid start
+        }
+
+        return -1; // none worked
     }
 };

@@ -62,3 +62,37 @@ public:
         return ans;
     }
 };
+
+/*
+    DFS with memoization
+
+
+*/
+
+
+class Solution {
+public:
+    int rob_helper(int start_index, vector<int> &n, unordered_map<int,int> &map){
+        if(start_index >= n.size()) return 0;
+        if(map.find(start_index) != map.end()) return map[start_index];
+
+        int sum = 0;
+
+        // Option 1: Rob current house i, then move to i+2
+        int robCurr = n[start_index] + rob_helper(start_index + 2, n, map);
+
+        // Option 2: Skip current house i, move to i+1
+        int robNext = rob_helper(start_index + 1, n, map);
+
+        sum = std::max(robCurr, robNext);
+        map[start_index] = sum;
+
+        return sum;
+    }
+
+    int rob(vector<int>& nums) {
+        unordered_map<int,int> store;
+
+        return rob_helper(0,nums,store);
+    }
+};
