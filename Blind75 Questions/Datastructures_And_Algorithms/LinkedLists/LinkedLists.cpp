@@ -122,42 +122,6 @@ void print_linked_list(ListNode* head){
     print_linked_list(head->next);
 }
 
-void reverse_linked_list(ListNode ** head){
-    ListNode * curr = *head;
-    ListNode * next = NULL;
-    ListNode * prev = NULL;
-
-    while (curr != NULL)
-    {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-
-    //By the time we reach here, we have ended the list
-    *head = prev;    
-}
-
-ListNode * reverse_linked_list(ListNode *head){
-    ListNode * curr = head;
-    ListNode * next = NULL;
-    ListNode * prev = NULL;
-
-    while (curr != NULL)
-    {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-
-    //By the time we reach here, we have ended the list
-
-    //return head
-    return prev;   
-}
-
 void remove_all_nodes_matching_value(ListNode ** head, int value){
     ListNode *curr = *head;
     ListNode *prev = NULL;

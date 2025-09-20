@@ -76,9 +76,7 @@ int maxSubArray(vector<int>& A) {
 
     for (size_t i = 1; i < A.size(); ++i) {
         max_local = std::max(A[i], max_local + A[i]); //either the higher of the new_value OR the curr_sub_array_sum + new_value
-        if (max_local > max_global) {
-            max_global = max_local;
-        }
+        max_global = std::max(max_global, max_local);
     }
     return max_global;
 }

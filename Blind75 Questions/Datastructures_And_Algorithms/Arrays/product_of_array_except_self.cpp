@@ -76,33 +76,29 @@ answer = [1*24, 1*12, 2*4, 6*1] = [24, 12, 8, 6]
 /**
  * @brief Plan
  * 
- *  Use a map initialised to array size
- *  Key is the index, scroll through array and update all values in map except the ones at that index ?
+ *  Keep and array of prefixes and suffixes
  * 
  */
 
 vector<int> productExceptSelf(vector<int>& nums) {
-    int n = nums.size();
-    vector<int> answer(n, 1);
+    vector<int> prefix (nums.size(), 0);
+    vector<int> ans (nums.size(),0);
 
-    // Calculate prefix products
-    for (int i = 1; i < n; i++) {
-        answer[i] = answer[i - 1] * nums[i - 1]; //Start from index 1 : { [1,2,3,4] --> [1, 1, 2, 6]}
+    long long prefix_total = 1;
+    long long suffix_total = 1;
+
+    for(int i = 0; i < nums.size(); i++){
+        prefix[i] = prefix_total;
+        prefix_total *= nums[i];
     }
 
-    // Calculate suffix products and multiply with prefix products
-    int suffix = 1;
-    for (int i = n - 1; i >= 0; i--) {
-        answer[i] *= suffix;
-        suffix *= nums[i];
+    for(int i = nums.size()-1; i >= 0; i--){
+        ans[i] = prefix[i]*suffix_total;
+        suffix_total *= nums[i];
     }
 
-    return answer;
+    return ans;
 }
-
-
-
-
 
 
 

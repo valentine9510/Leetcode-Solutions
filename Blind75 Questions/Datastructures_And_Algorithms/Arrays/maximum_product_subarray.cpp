@@ -80,21 +80,21 @@ int maxProduct(vector<int>& nums) {
 
 
 int maxProduct(vector<int>& nums) {
-    int min_prod = nums[0];
-    int max_prod = nums[0];
-    int result = nums[0];
+    int min_product = nums[0];
+    int max_product = nums[0];
+    int ans = nums[0];
 
-    for(auto curr : nums){
-        if(curr < 0)
-            std::swap(min_prod, max_prod);
+    for(int i = 1; i < nums.size(); i++){
+        if(nums[i] < 0)
+            std::swap(min_product, max_product);
         
-        min_prod = std::min(min_prod, min_prod*curr);
-        max_prod = std::min(max_prod, max_prod*curr);
+        min_product = std::min(nums[i], nums[i]*min_product);
+        max_product = std::max(nums[i], nums[i]*max_product);
 
-        result = std::max(result, max_prod);
+        ans = std::max(ans, max_product);
     }
 
-    return result;
+    return ans;
 }
 
 
