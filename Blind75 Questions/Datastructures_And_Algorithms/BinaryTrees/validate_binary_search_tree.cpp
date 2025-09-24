@@ -1,13 +1,6 @@
-/**
- * @file product_of_array_except_self.cpp
- * @author Valentine Ssebuyungo
- * @brief  Min Stack
- * @version 0.1
- * @date 2024-08-11
- * 
- * @copyright Copyright (c) 2024
- * 
- */
+#include <bits/stdc++.h>
+
+using namespace std;
 
 /*
 Definition for a binary tree node.
@@ -92,5 +85,46 @@ public:
         if(root->val >= data) return false; 
 
         return (isLesser(root->left, data) && isLesser(root->right, data));
+    }
+};
+
+
+class Solution {
+public:
+    // Helper that enforces: low < node->val < high (strict)
+    bool dfs(TreeNode* node, long long low, long long high) {
+        if (!node) return true; // empty subtree is valid
+
+        // Current node must lie strictly between low and high
+        if (!(low < node->val && node->val < high)) return false;
+
+        // Left subtree: allowed range becomes (low, node->val)
+        // Right subtree: allowed range becomes (node->val, high)
+        return dfs(node->left, low, node->val) &&
+               dfs(node->right, node->val, high);
+    }
+
+    bool isValidBST(TreeNode* root) {
+        // Use wide sentinels to avoid overflow with INT_MIN/INT_MAX.
+        // long long ensures comparisons are safe when node->val is int.
+        return dfs(root, std::numeric_limits<long long>::min(),
+                         std::numeric_limits<long long>::max());
+    }
+};
+
+
+
+class Solution {
+    bool isValidBST(TreeNode* root) {
+        return dfs(root, std::numeric_limits<long long>::min(), std::numeric_limits<long long>::max());
+    }
+    bool dfs (TreeNode *node, long long low, long long high){
+        if(!node) return true;
+
+        //Value must lie within range left < node < right
+        if(!(low < node->val && node->val < high))
+            return false;
+
+        return dfs(node->left, low, node->val) && dfs(node->right, node->val, high);
     }
 };

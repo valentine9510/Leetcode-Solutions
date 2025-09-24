@@ -1,19 +1,7 @@
 #include <bits/stdc++.h>
-#include <cctype>
-#include <iostream>
-#include <vector>
-#include <set>
-#include <unordered_set>
-#include <sstream>
-#include <queue>
-#include <stack>
-#include <list>
-#include <map>
-#include <unordered_map>
-#include <math.h>
-// #include <headers.h>
 
 using namespace std;
+
 class Solution {
 public:
     int evalRPN(std::vector<std::string>& tokens) {
@@ -64,31 +52,37 @@ public:
     int evalRPN(vector<string>& tokens) {
         stack<int> numbers;
 
-        for(string element : tokens){
-            if(isdigit( element.at(element.size()-1)) ){ //we have a digit, if the last value of the string is a digit, the first value maybe '+', '-', eg, +6, -6
-                numbers.push(std::stoi(element)); //push the number
+        for(string &curr : tokens){
+            if(isNumber(curr)){
+                numbers.push(std::stoi(curr));
             } else {
-                int lhs = numbers.top();
-                numbers.pop();
-
+                /* We have an evaluation */
                 int rhs = numbers.top();
                 numbers.pop();
 
-                if(element == "+"){              
-                    numbers.push(rhs+lhs);
-                } else if(element == "-"){
-                    numbers.push(rhs-lhs);
-                } else if(element == "/"){
-                    numbers.push(rhs/lhs);
-                } else if(element == "*"){
-                    numbers.push(rhs*lhs);
-                }
+                int lhs = numbers.top();
+                numbers.pop();
+
+                int result;
+
+                if(curr == "+")
+                    result = lhs + rhs;
+                else if(curr == "-")
+                    result = lhs - rhs;
+                else if(curr == "*")
+                    result = lhs * rhs;
+                else if(curr == "/")
+                    result = lhs / rhs;
+
+                numbers.push(result);
             }
-            
-            
         }
 
         return numbers.top();
+    }
+private:
+    bool isNumber(string input){
+        return std::isdigit(input.back());
     }
 };
 

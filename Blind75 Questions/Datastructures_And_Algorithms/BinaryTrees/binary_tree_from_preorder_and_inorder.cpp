@@ -45,9 +45,40 @@ struct TreeNode {
 };
 
 /*
-    We are given pre-order so we visite in pre-order fashion
+    What’s being tested
+    Tree reconstruction from traversals: understanding how preorder (root, left, right) and inorder (left, root, right) complement each other.
+    Recursion & indices: passing subarray boundaries correctly (no slicing for O(1) boundary ops).
+    Hashing for speed: using a map from value → index in inorder to avoid O(n²).
+    Pointer/struct fluency in C++.
 
-    We use in-order to see the validity of our roots
+    Why it’s asked: it probes your ability to combine traversal properties, manage indices cleanly, and write bug-free recursive code with good asymptotics.
+
+    Methodology (step-by-step)
+    Key idea
+    Preorder’s first element is always the root of the (sub)tree.
+    In inorder, everything left of root is the left subtree; everything right is the right subtree.
+    Recur with the corresponding ranges.
+
+
+    Clean plan (O(n))
+    Precompute a hash map in_pos[val] = index in inorder (O(n)).
+    Keep a global / reference index preIdx that walks through preorder once.
+    Define build(inL, inR):
+    Base: if inL > inR, return nullptr.
+    Take rootVal = preorder[preIdx++].
+    Find split: mid = in_pos[rootVal].
+    Build left with inL..mid-1, right with mid+1..inR.
+
+    Start with build(0, n-1)
+
+
+    pre = [3,9,20,15,7]
+    in  = [9,3,15,20,7]
+
+    preIdx=0 → root=3 (pre[0])
+    in: ... 9 | 3 | 15 20 7 → left uses [9], right uses [15 20 7]
+    Recurse similarly.
+
  */
 class Solution {
 public:
@@ -64,9 +95,8 @@ private:
     TreeNode* buildTreeHelper(vector<int>& preorder, vector<int>& inorder, unordered_map<int, int>& inorder_map,
                               int& preorder_index, int inorder_start, int inorder_end) {
         // Base case: if there are no elements to construct the tree
-        if (inorder_start > inorder_end) {
+        if (inorder_start > inorder_end)
             return nullptr;
-        }
 
         // The current root's value is at preorder_index in the preorder list
         int root_val = preorder[preorder_index];
