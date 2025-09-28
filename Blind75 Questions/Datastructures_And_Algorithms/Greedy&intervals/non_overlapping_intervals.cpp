@@ -51,11 +51,11 @@ public:
 
         // 2) Greedily keep intervals that start after or at the last kept end
         for (const auto& it : intervals) {
-            int s = it[0], e = it[1];
-            if (s >= lastEnd) {
+            int curr_start = it[0], curr_end = it[1];
+            if (curr_start >= lastEnd) {
                 // Non-overlapping with the last chosen one -> keep it
                 countKept++;
-                lastEnd = e;
+                lastEnd = curr_end;
             } 
             // else: overlapping -> skip this interval (i.e., we "remove" it)
         }

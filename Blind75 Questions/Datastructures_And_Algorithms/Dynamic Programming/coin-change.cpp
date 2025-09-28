@@ -94,6 +94,7 @@ int coinChange(vector<int>& coins, int amount) {
     if(store.find(amount) != store.end()) store[amount];
 
     int minCoins = INT_MAX;
+    minCoins = numeric_limits<int>::max();
 
     for(int i = 0; i < coins.size(); i++){
         int res = coinChange(coins, amount-coins[i]);
@@ -102,6 +103,30 @@ int coinChange(vector<int>& coins, int amount) {
     }
 
     store[amount] = (minCoins == INT_MAX) ? -1 : minCoins+1; //add our current coin as well
+
+    return store[amount];
+}
+
+
+
+
+
+unordered_map<int,int> store;
+int coinChange(vector<int>& coins, int amount) {
+    if(amount < 0) return -1;
+    if(amount = 0) return 0;
+    if(store.find(amount) != store.end()) return store[amount];
+
+    int min_ways = numeric_limits<int>::max();
+
+    for(auto curr_coin : coins){
+        int res = coinChange(coins, amount-curr_coin);
+
+        if(res != -1) min_ways = std::min(min_ways, res);
+    }
+
+    if(min_ways != numeric_limits<int>::max()) store[amount] = min_ways + 1; /* Value is not updated */
+    else store[amount] = -1;
 
     return store[amount];
 }

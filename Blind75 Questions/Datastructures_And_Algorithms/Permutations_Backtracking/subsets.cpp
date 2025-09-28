@@ -112,3 +112,34 @@ class Solution {
             return answer;
         }
 };
+
+
+/* Compact solution */
+class Solution {
+    public :
+    void subset_helper(vector<vector<int>> &soln, vector<int>&nums, vector<int> &curr_vec, int curr_index){
+        //If reached goal add to soln
+        soln.push_back(curr_vec);
+
+        //Try all new combinations
+        for(int i = curr_index; i < nums.size(); i++){
+            //add to soln
+            curr_vec.push_back(nums[i]);
+
+            //back track
+            subset_helper(soln, nums, curr_vec, i+1);
+
+            //remove from soln
+            curr_vec.pop_back();
+
+        }
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> soln;
+        vector<int> curr_vec;
+
+        subset_helper(soln, nums, curr_vec, 0);
+
+        return soln;
+    }
+};

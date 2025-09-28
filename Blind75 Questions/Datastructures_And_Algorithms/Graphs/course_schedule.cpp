@@ -107,7 +107,8 @@ public:
     bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
         // Step 1: Create a graph representation
         vector<vector<int>> graph(numCourses); // Adjacency list
-        vector<int> visited(numCourses, 0); // 0 = unvisited, 1 = visiting, 2 = visited, using codes - you can also be removed the visited from a sit
+        vector<int> visited(numCourses, 0); 
+        // 0 = unvisited, 1 = visiting, 2 = visited, using codes - you can also be removed the visited from a sit
         
         // Build the graph from prerequisites
         for(auto pre : prerequisites) {

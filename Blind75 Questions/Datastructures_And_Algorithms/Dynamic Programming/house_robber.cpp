@@ -96,3 +96,25 @@ public:
         return rob_helper(0,nums,store);
     }
 };
+
+
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        long next1 = 0; // f(i+1)
+        long next2 = 0; // f(i+2)
+
+        // Walk from rightmost to leftmost
+        for (int i = (int)nums.size() - 1; i >= 0; --i) {
+            long take = nums[i] + next2; // rob current, jump two
+            long skip = next1;           // skip current, use f(i+1)
+            long cur  = max(take, skip);
+
+            // Roll the window forward
+            next2 = next1;
+            next1 = cur;
+        }
+        return (int)next1; // f(0)
+    }
+};

@@ -291,3 +291,41 @@ int main() {
     cout << "\n";
     return 0;
 }
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 0) return 0; // edge case: no numbers, no subsequence
+
+        // Step 1: Create a dp array where:
+        // dp[i] = length of the Longest Increasing Subsequence (LIS) that ENDS at index i
+        // Initialize with 1, because each element alone is a subsequence of length 1
+        vector<int> dp(n, 1);
+
+        // This variable will keep track of the longest LIS found overall
+        int longestSubsequence = 1;
+
+        // Step 2: For each element nums[i], check all elements before it (nums[j], j < i)
+        for (int curr_index = 1; curr_index < n; curr_index++) {
+
+            for (int prev_index = 0; prev_index < curr_index; prev_index++) {
+
+                // If nums[prev_index] < nums[curr_index],
+                // then nums[curr_index] can extend the LIS that ended at prev_index
+                if (nums[prev_index] < nums[curr_index]) {
+                    dp[curr_index] = max(dp[curr_index], dp[prev_index] + 1);
+                }
+            }
+
+            // Update the global best LIS length
+            longestSubsequence = max(longestSubsequence, dp[curr_index]);
+        }
+
+        // Step 3: The answer is the maximum LIS length we found
+        return longestSubsequence;
+    }
+};

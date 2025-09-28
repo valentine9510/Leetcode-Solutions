@@ -55,23 +55,32 @@ public:
     }
 };
 
-/* Chat GPT Solution */
 class Solution {
 public:
+    unordered_map<string, int> memo;
+
     int numDecodings(string s) {
-        int n = s.size();
-        if (n == 0) return 0;
+        // Base case: empty string = 1 valid decoding
+        if (s.empty()) return 1;
 
-        vector<int> dp(n + 1, 0);
-        dp[n] = 1;                          // empty suffix has 1 way
-        dp[n - 1] = (s[n - 1] != '0');      // last char: 1 way if not '0'
+        if (memo.find(s) != memo.end()) return memo[s];
 
-        for (int i = n - 2; i >= 0; --i) {
-            if (s[i] == '0') { dp[i] = 0; continue; }
-            dp[i] = dp[i + 1];              // one digit
-            if (s[i] == '1' || (s[i] == '2' && s[i + 1] <= '6'))
-                dp[i] += dp[i + 2];         // two digits
+        int ways = 0;
+
+        // Option 1: take one digit
+        if (s[0] != '0') {
+            ways += numDecodings(s.substr(1));
         }
-        return dp[0];
+
+        // Option 2: take two digits (if possible)
+        if (s.size() >= 2) {
+            int val = stoi(s.substr(0, 2));
+            if (val >= 10 && val <= 26) { // valid 2-digit decode
+                ways += numDecodings(s.substr(2));
+            }
+        }
+
+        return memo[s] = ways;
     }
 };
+
