@@ -206,6 +206,30 @@ DFS recursion stack → O(m * n) in worst case.
 */
 class Solution {
 public:
+    void explore(int row, int col, vector<vector<int>>&heights,  vector<vector<bool>>&ocean){
+        //visit
+        ocean[row][col] = true;
+
+        int row_size = heights.size();
+        int col_size = heights[row].size();
+
+        //for all directions, visit valid cells
+        vector<vector<int>> directions = {{0,1}, {0,-1}, {1,0}, {-1, 0}};
+
+        for(auto curr_dir : directions){
+            int new_row = row + curr_dir[0];
+            int new_col = col + curr_dir[1];
+            
+            //if in bounds and the value is larger
+            if(new_row >= 0 && new_row < row_size && new_col >= 0 && new_col < col_size 
+                && heights[new_row][new_col] >= heights[row][col]) {
+                    //only visit valid nodes
+                    explore(new_row, new_col, heights, ocean);
+                }
+            
+        }
+    }
+    
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         int m = heights.size();
         int n = heights[0].size();

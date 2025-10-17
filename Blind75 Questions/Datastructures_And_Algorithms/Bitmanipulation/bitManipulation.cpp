@@ -25,7 +25,6 @@
 
 //Functions
 int swap_Endians(int value);
-unsigned int swap_endians_personal(unsigned int input);
 bool is_power_of_two(unsigned int input);
 unsigned int turn_off_kth_bit ( unsigned int input, unsigned int k);
 unsigned int turn_on_kth_bit ( unsigned int input, unsigned int k);
@@ -113,25 +112,6 @@ int swap_Endians(int value)
               right_middle_byte | rightmost_byte); 
  
     return result; 
-}
-
-/**
- * @brief Reverse order of bytes
- * 
- * @param input 
- * @return unsigned int 
- */
-unsigned int swap_endians_personal(unsigned int input){
-    unsigned int result;
-
-    unsigned int left_most = (0x000000FF & input) >> 0;
-    unsigned int middle_left = (0x0000FF00 & input) >> 8;
-    unsigned int middle_right = (0x00FF0000 & input) >> 16;
-    unsigned int right_most = (0xFF000000 & input) >> 24;
-
-    result = (left_most << 24) | (middle_left << 16) | (middle_right << 8) | (right_most << 0 );
-
-    return result;
 }
 
 /**
